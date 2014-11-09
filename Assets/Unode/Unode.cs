@@ -15,8 +15,11 @@ public class Unode : MonoBehaviour {
 	public string adress;
 	public string msg;
 	private WebSocket ws;
-	public bool send;
-	
+	private bool run;
+
+	//JSON
+	private Dictionary<string,object> dict;
+
 	//Node.exe
 	public string program_name;
 	public bool   x86;
@@ -29,73 +32,61 @@ public class Unode : MonoBehaviour {
 	public string js;
 	public bool windowtype_hidden = false;
 
-	public bool run;
-
-	public string text;
-
-	public bool voice;
+	//外部出力
+	public bool sound;
+	public string file;
 
 	void Awake() {
-		run = open_nodejs(x86);
-		ws = new WebSocket(adress);
-
+		if(run = open_nodejs(x86))
+			ws = new WebSocket(adress);
 	}
 
 	void Start () {
-		voice = GetComponent<voice>();
 	}
-
-	Dictionary<string,object> dict;
-
+	
 	//メインスレッド
 	void Update () {
+		if (run) {
+			ws.OnOpen += (sender, e) => {
+					Debug.Log ("ws.OnOpen:");
+					ws.Send ("{\"mode\":1}");
+			};
 
-		ws.OnOpen += (sender, e) => {
-			Debug.Log("ws.OnOpen:");
-			ws.Send("{\"mode\":1}");
-		};
+			ws.OnMessage += (sender, e) => {
+					dict = Json.Deserialize (e.Data) as Dictionary<string,object>;
+					try {
+							switch ((long)dict ["mode"]) {
+							case 1:
+									Debug.Log ("Node.js: " + (string)dict ["ver"]);
+									ws.Send ("{\"mode\":2" + "}");
+									break;
+							case 2:
+									Debug.Log ("Mode: " + (long)dict ["mode"]);
+									break;
+							case 3:
+									 file = (string) dict ["file"];
+									sound =   (bool) dict ["voice"];
+									break;
+							default:
+									Debug.Log ("Error:" + (long)dict ["mode"]);
+									break;
+							}
+					} catch {
+							Debug.Log ("Error:parse");
+					}
+					//Debug.Log("OnMessage:"+Json.Serialize(dict));
+			};
 
-		ws.OnMessage += (sender, e) => {
-			dict = Json.Deserialize(e.Data) as Dictionary<string,object>;
-			try{
-				switch((long)dict["mode"]){
-				case 1:
-					Debug.Log("Node.js: " + (string)dict["ver"]);
-					ws.Send("{\"mode\":2" + "}");
-					break;
-				case 2:
-					Debug.Log("Mode: " + (long)dict["mode"]);
-					break;
-				case 3:
-					voice = (bool)dict["voice"];
-					break;
-				default:
-					Debug.Log("Error:" + (long)dict["mode"]);
-					break;
-				}
-			}catch{
-				Debug.Log("Error:parse");
-			}
-			//Debug.Log("OnMessage:"+Json.Serialize(dict));
-		};
-
-		ws.OnClose += (sender, e) => {
-			Debug.Log("OnClosed:"+e.Reason);
-		};	
+			ws.OnClose += (sender, e) => {
+					Debug.Log ("OnClosed:" + e.Reason);
+			};	
 
 
-		if(voice){
-			gameObject.AddComponent<voice>().file = "voice.wav";
-			voice = false;
+
+			ws.Connect ();
+		} else {
+			Debug.Log("Error:Not Run Node.js");
 		}
-
-
-		if(Input.GetMouseButtonDown(0)){
-			ws.Send("{\"mode\":3" + ",\"text\":" + "\"" + text + "\"" + "}");
-		}
-
-		ws.Connect();
-
 	}
 
 	void OnApplicationQuit() {
@@ -104,8 +95,8 @@ public class Unode : MonoBehaviour {
 		kill_nodejs ();
 	}
 	
-	private bool open_nodejs(bool select){
-		if (select == true) {
+	private bool open_nodejs(bool arch){
+		if (arch == true) {
 			nodejs_path = Application.streamingAssetsPath + "/.node/x86/";
 		} else {
 			nodejs_path = Application.streamingAssetsPath + "/.node/x64/";
@@ -115,13 +106,12 @@ public class Unode : MonoBehaviour {
 		info = new System.Diagnostics.ProcessStartInfo();
 		info.FileName = nodejs_path + program_name;
 		info.WorkingDirectory = Script_path;
+
 		if(cmd){
 			info.Arguments = command;
 		}else{
 			info.Arguments = Script_path + js;
 		}
-
-		//Debug.Log(info.WorkingDirectory + ">" + info.FileName+" "+info.Arguments);
 
 		if(windowtype_hidden){
 			info.WindowStyle = ProcessWindowStyle.Hidden;
@@ -138,5 +128,18 @@ public class Unode : MonoBehaviour {
 
 	private void kill_nodejs(){
 		nodejs_process.Kill();
+	}
+
+	public void message(int mode,string text){
+		string msg;
+
+		msg  = "{";
+		msg += "\"mode\":" + mode + ",";
+		msg += 	text;
+		msg += "}";
+
+		Debug.Log (msg);
+
+		ws.Send(msg);
 	}
 }

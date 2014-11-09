@@ -1,21 +1,24 @@
 ﻿var nodejtalk   = require('./node_modules/NodeJTalk/nodejtalk');
+var path        = "./node_modules/NodeJTalk/";
 var Dictionary  = "./node_modules/NodeJTalk/dic";
 var Voice       = "./node_modules/NodeJTalk/voice\\mei_happy.htsvoice";
 var Sampling    = 48000;
-var file_name   = "../data/voice.wav";
+var file_name   = "voice.wav";
+var file_path   = "../data/";
 var text        = '吾輩は猫である';
 
 //OpenJTalk------------------------------------------
-process.on("message",function(msg) {
-    console.log("NodeJTalk:" + msg);
+process.on("message",function(request) {
+    var msg = JSON.parse(request);
+    console.log("NodeJTalk:" + msg.file);
     
-    nodejtalk.setup(Dictionary,Voice,Sampling,file_name);
+    nodejtalk.setup(path+msg.dic,path+msg.voice,msg.sample,file_path + msg.file);
 
-    nodejtalk.run(msg);
+    nodejtalk.run(msg.text);
 
     nodejtalk.end();
     
-    process.send("{\"mode\":3,\"voice\":true}");
+    process.send("{\"mode\":3,\"voice\":true,\"file\":\""+file_name+"\"}");
 });
 
 //---------------------------------------------------

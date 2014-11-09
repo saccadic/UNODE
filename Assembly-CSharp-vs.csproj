@@ -47,8 +47,9 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\MiniJSON\MiniJSON_test.cs" />
-     <Compile Include="Assets\Unode.cs" />
-     <Compile Include="Assets\voice.cs" />
+     <Compile Include="Assets\NodeJTalk\NodeJTalk.cs" />
+     <Compile Include="Assets\NodeJTalk\voice.cs" />
+     <Compile Include="Assets\Unode\Unode.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.0/UnityEngine.UI.dll</HintPath>
  </Reference>

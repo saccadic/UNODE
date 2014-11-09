@@ -31,7 +31,7 @@ server.on('connection', function(client) {
                 client.send(text)
                 break;
             case 3:
-                child.send(msg.text);
+                child.send(request);
                 break;
         }
     });

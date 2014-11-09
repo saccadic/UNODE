@@ -1,11 +1,8 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Unode.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\MiniJSON\MiniJSON_test.cs">
     <Files>
-      <File FileName="Assets\Unode.cs" Line="143" Column="1" />
-      <File FileName="Assets\Unode.cs" Line="97" Column="16" />
-      <File FileName="Assets\voice.cs" Line="1" Column="1" />
-      <File FileName="Assets\MiniJSON\MiniJSON_test.cs" Line="1" Column="1" />
+      <File FileName="Assets\MiniJSON\MiniJSON_test.cs" Line="14" Column="25" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
