@@ -31,6 +31,10 @@ public class Unode : MonoBehaviour {
 
 	public bool run;
 
+	public string text;
+
+	public bool voice;
+
 	void Awake() {
 		run = open_nodejs(x86);
 		ws = new WebSocket(adress);
@@ -38,49 +42,59 @@ public class Unode : MonoBehaviour {
 	}
 
 	void Start () {
-
+		voice = GetComponent<voice>();
 	}
-	
+
+	Dictionary<string,object> dict;
+
 	//メインスレッド
 	void Update () {
-	
+
 		ws.OnOpen += (sender, e) => {
 			Debug.Log("ws.OnOpen:");
 			ws.Send("{\"mode\":1}");
 		};
 
 		ws.OnMessage += (sender, e) => {
-			var dict = Json.Deserialize(e.Data) as Dictionary<string,object>;
+			dict = Json.Deserialize(e.Data) as Dictionary<string,object>;
 			try{
 				switch((long)dict["mode"]){
-					case 1:
-						Debug.Log("Node.js: " + (string)dict["ver"]);
-						ws.Send("{\"mode\":2}");
-						break;
-					case 2:
-						Debug.Log("Mode: " + (long)dict["mode"]);
-						break;
-					default:
-						Debug.Log("Error:" + (long)dict["mode"]);
-						break;
+				case 1:
+					Debug.Log("Node.js: " + (string)dict["ver"]);
+					ws.Send("{\"mode\":2" + "}");
+					break;
+				case 2:
+					Debug.Log("Mode: " + (long)dict["mode"]);
+					break;
+				case 3:
+					voice = (bool)dict["voice"];
+					break;
+				default:
+					Debug.Log("Error:" + (long)dict["mode"]);
+					break;
 				}
 			}catch{
 				Debug.Log("Error:parse");
 			}
-			Debug.Log("OnMessage:"+Json.Serialize(dict));
+			//Debug.Log("OnMessage:"+Json.Serialize(dict));
 		};
 
 		ws.OnClose += (sender, e) => {
 			Debug.Log("OnClosed:"+e.Reason);
 		};	
 
-		if(send){
-			ws.Send(msg);
+
+		if(voice){
+			gameObject.AddComponent<voice>().file = "voice.wav";
+			voice = false;
+		}
+
+
+		if(Input.GetMouseButtonDown(0)){
+			ws.Send("{\"mode\":3" + ",\"text\":" + "\"" + text + "\"" + "}");
 		}
 
 		ws.Connect();
-
-
 
 	}
 

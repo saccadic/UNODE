@@ -1,23 +1,34 @@
 ﻿var nodejtalk   = require('./node_modules/NodeJTalk/nodejtalk');
-var Dictionary = "./node_modules/NodeJTalk/dic";
-var Voice	   = "./node_modules/NodeJTalk/voice\\mei_happy.htsvoice";
-var Sampling   = 48000;
-var file_name  = "voice.wav";
-var text = '吾輩は猫である';
+var Dictionary  = "./node_modules/NodeJTalk/dic";
+var Voice       = "./node_modules/NodeJTalk/voice\\mei_happy.htsvoice";
+var Sampling    = 48000;
+var file_name   = "../data/voice.wav";
+var text        = '吾輩は猫である';
 
 //OpenJTalk------------------------------------------
-nodejtalk.setup(Dictionary,Voice,Sampling,file_name);
+process.on("message",function(msg) {
+    console.log("NodeJTalk:" + msg);
+    
+    nodejtalk.setup(Dictionary,Voice,Sampling,file_name);
 
-nodejtalk.run(text);
+    nodejtalk.run(msg);
 
-nodejtalk.end();
+    nodejtalk.end();
+    
+    process.send("{\"mode\":3,\"voice\":true}");
+});
+
 //---------------------------------------------------
-
+/*
 //バイナリとしてBuffer変数にロードしてあれこれする準備----------
 var fs = require("fs");
 var buffer = fs.readFileSync( file_name );
 console.log("Buffer size:"+buffer.length);
 //---------------------------------------------------
+*/
+process.on("exit", function () {
+    console.log("child exit");
+});
 
 /*
 var sys = require('sys');

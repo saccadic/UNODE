@@ -5,6 +5,8 @@ Project("{05FAEF15-0811-6384-8F71-5A908CB13999}") = "Unode", "Assembly-CSharp-fi
 EndProject
 Project("{05FAEF15-0811-6384-8F71-5A908CB13999}") = "Unode", "Assembly-CSharp-vs.csproj", "{B665419A-3E3F-6BC8-6D9B-22C3AFDAAB22}"
 EndProject
+Project("{05FAEF15-0811-6384-8F71-5A908CB13999}") = "Unode", "Assembly-CSharp-Editor-vs.csproj", "{EEFA0A48-6316-EA0C-10FE-9D58BFD048FA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,11 +21,15 @@ Global
 		{B665419A-3E3F-6BC8-6D9B-22C3AFDAAB22}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B665419A-3E3F-6BC8-6D9B-22C3AFDAAB22}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B665419A-3E3F-6BC8-6D9B-22C3AFDAAB22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEFA0A48-6316-EA0C-10FE-9D58BFD048FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEFA0A48-6316-EA0C-10FE-9D58BFD048FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEFA0A48-6316-EA0C-10FE-9D58BFD048FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEFA0A48-6316-EA0C-10FE-9D58BFD048FA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-																						GlobalSection(MonoDevelopProperties) = preSolution
+																															GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Assembly-CSharp.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1

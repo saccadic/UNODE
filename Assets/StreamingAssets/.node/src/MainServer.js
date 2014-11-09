@@ -1,17 +1,24 @@
+ï»¿var child_process = require("child_process");
+var child = child_process.fork("./NodeJTalk");
+
+
 var ws = require('websocket.io');
 var server = ws.listen(8080,function () {
     console.log("Websocket Server start");
   }
 );
 
-var connections = [];
+var connections;
+
+//child.send("ãƒ†ã‚¹ãƒˆ");
+
 server.on('connection', function(client) {
     console.log('connection start');
- 
-    // ƒNƒ‰ƒCƒAƒ“ƒg‚©‚ç‚ÌƒƒbƒZ[ƒWóMƒCƒxƒ“ƒg‚ğˆ—
+    connections = client;
+    // ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆã‹ã‚‰ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å—ä¿¡ã‚¤ãƒ™ãƒ³ãƒˆã‚’å‡¦ç†
     client.on('message', function(request) {
         var msg = JSON.parse(request);
-        console.log("From Unity:"+request + "MODE:"+msg.mode);
+        console.log("Unity -> Nodejs:"+request + ",MODE:"+msg.mode);
         switch (msg.mode) {
             case 1:
                 var text = "{\"mode\":1,"+"\"ver\":\"v0.10.28\"}";
@@ -23,25 +30,32 @@ server.on('connection', function(client) {
                 console.log("Nodejs -> Unity:"+text);
                 client.send(text)
                 break;
+            case 3:
+                child.send(msg.text);
+                break;
         }
-        
     });
  
-    // ƒNƒ‰ƒCƒAƒ“ƒg‚ªØ’f‚µ‚½‚Æ‚«‚Ìˆ—
+    // ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆãŒåˆ‡æ–­ã—ãŸã¨ãã®å‡¦ç†
     client.on('disconnect', function(){
         console.log('connection disconnect');
     });
  
-    // ’ÊM‚ªƒNƒ[ƒY‚µ‚½‚Æ‚«‚Ìˆ—
+    // é€šä¿¡ãŒã‚¯ãƒ­ãƒ¼ã‚ºã—ãŸã¨ãã®å‡¦ç†
     client.on('close', function(){
         console.log('connection close');
     });
  
-    // ƒGƒ‰[‚ª”­¶‚µ‚½ê‡
+    // ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ãŸå ´åˆ
     client.on('error', function(err){
         console.log(err);
         console.log(err.stack);
     });
+});
+
+child.on("message", function (msg) {
+    console.log(msg);
+    connections.send(msg)    
 });
 
 
