@@ -1,8 +1,8 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\MiniJSON\MiniJSON_test.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\NodeJTalk\NodeJTalk.cs">
     <Files>
-      <File FileName="Assets\MiniJSON\MiniJSON_test.cs" Line="14" Column="25" />
+      <File FileName="Assets\NodeJTalk\NodeJTalk.cs" Line="32" Column="72" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
