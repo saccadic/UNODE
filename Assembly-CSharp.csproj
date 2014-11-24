@@ -50,6 +50,10 @@
      <Compile Include="Assets\NodeJTalk\NodeJTalk.cs" />
      <Compile Include="Assets\NodeJTalk\voice.cs" />
      <Compile Include="Assets\Unode\Unode.cs" />
+     <Compile Include="Assets\Unode\Unode_v1_1.cs" />
+     <Compile Include="Assets\controller.cs" />
+     <Compile Include="Assets\json.cs" />
+     <Compile Include="Assets\vnc.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.0/UnityEngine.UI.dll</HintPath>
  </Reference>
