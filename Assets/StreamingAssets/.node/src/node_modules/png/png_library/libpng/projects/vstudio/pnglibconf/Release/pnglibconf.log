@@ -1,0 +1,11 @@
+﻿2014/11/27 23:16:22 にビルドを開始しました。
+     1>ノード 3 上のプロジェクト "G:\GitHub\Node-Image-Generator\png\src\libpng\projects\vstudio\pnglibconf\pnglibconf.vcxproj" (Build ターゲット)。
+     1>CustomBuildStep:
+         copy ..\..\..\scripts\pnglibconf.h.prebuilt ..\..\..\pnglibconf.h
+         :VCEnd
+                 1 個のファイルをコピーしました。
+     1>プロジェクト "G:\GitHub\Node-Image-Generator\png\src\libpng\projects\vstudio\pnglibconf\pnglibconf.vcxproj" (Build ターゲット) のビルドが完了しました。
+
+ビルドに成功しました。
+
+経過時間 00:00:00.23

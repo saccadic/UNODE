@@ -1,11 +1,9 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\vnc.cs">
     <Files>
-      <File FileName="Assets\vnc.cs" Line="96" Column="1" />
-      <File FileName="Assets\vnc.cs" Line="77" Column="4" />
-      <File FileName="Assets\Unode\Unode_v1_1.cs" Line="1" Column="1" />
-      <File FileName="Assets\controller.cs" Line="1" Column="1" />
+      <File FileName="Assets\vnc.cs" Line="133" Column="31" />
+      <File FileName="Assets\MiniJSON\MiniJSON_test.cs" Line="22" Column="37" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -11,14 +11,17 @@ public class vnc : MonoBehaviour {
 	public string password;
 
 	public string vncserver_name;
-	public long width,height;
+	public float width,height;
 	public bool IsReady;
-	public long x, y, r_w, r_h;
+	public int x, y, rect_w, rect_h;
 	private Texture2D img;
 
-	private byte[]   byte_data;
+	private byte[,]   byte_data;
 
-	public float m_x,m_y,tmp_m_x,tmp_m_y;
+	public int m_x,m_y,tmp_m_x,tmp_m_y;
+
+	public string text;
+
 	void Start () {
 		IsReady = false;
 	}
@@ -37,11 +40,11 @@ public class vnc : MonoBehaviour {
 				break;
 			case "fream" :
 				Debug.Log("Update fream");
-				x 		= (long)unode.dict["x"];
-				x 		= (long)unode.dict["x"];
-				r_w  	= (long)unode.dict["width"];
-				r_h 	= (long)unode.dict["height"];
-				img 	= loadtexture((int)r_w,(int)r_h);
+				x 		= (int)(long)unode.dict["x"];
+				y 		= (int)(long)unode.dict["y"];
+				rect_w  = (int)(long)unode.dict["width"];
+				rect_h 	= (int)(long)unode.dict["height"];
+				img 	= loadtexture( ((List<object>)unode.dict["image"]).ToArray(), (int)rect_w,(int)rect_h);
 
 				gameObject.renderer.material.mainTexture = img;
 
@@ -63,6 +66,15 @@ public class vnc : MonoBehaviour {
 			unode.send(unpacked_data);
 		}
 
+		if(Input.GetKeyDown(KeyCode.Return)){
+			var unpacked_data = new Dictionary<string, object> {
+				{ "mode", "keyboard" },
+				{ "str",text}
+			};
+			
+			unode.send(unpacked_data);
+		}
+
 		if(m_x != tmp_m_x || m_y != tmp_m_y){
 			tmp_m_x = m_x;
 			tmp_m_y = m_y;
@@ -78,18 +90,55 @@ public class vnc : MonoBehaviour {
 	}
 	
 	
-	private Texture2D loadtexture(int width,int height){
-		object[] obj_data;
-		Texture2D texture;
-		
-		byte_data = new byte[((List<object>)unode.dict["data"]).Count];
-		obj_data  = ((List<object>)unode.dict["data"]).ToArray();
-		for(int i=0;i<obj_data.Length;i++){
-			byte_data[i] = (byte)(long)obj_data[i];
+	private Texture2D loadtexture(object[] image,int width,int height){
+		//object[] r,g,b,data;
+		//Texture2D texture;
+		//Dictionary<string,object> dict;
+
+
+		/*
+		dict = image as Dictionary<string,object>;
+
+		byte_data = new   byte[3,((List<object>)dict["red"]).Count];
+
+		r  = ((List<object>)dict["red"])  .ToArray();
+		g  = ((List<object>)dict["green"]).ToArray();
+		b  = ((List<object>)dict["blue"]) .ToArray();
+
+
+
+
+		texture = new Texture2D(width, height, TextureFormat.ARGB32, true);
+
+		int offset = 0;
+		for (int y = 0; y < height; y++) {
+			for (int x = 0; x < width; x++) {
+				Color col = new Color((byte)(long)r[x], (byte)(long)g[x], (byte)(long)b[x],1.0f);
+				texture.SetPixel(x, y, col);
+			}
 		}
-		texture = new Texture2D(width, height);
-		texture.LoadImage(byte_data);
+
+		texture = new Texture2D(width, height, TextureFormat.ARGB32, true);
+		int offset = 0;
+		for (int y = 0; y < height; y++) {
+			for (int x = 0; x < width; x++) {
+				Color col = new Color((long)image[x], (long)image[x], (long)image[x],1.0f);
+				texture.SetPixel(x, y, col);
+			}
+		}
 		
+		texture.Apply();
+*/
+		byte[] data;
+		data = new byte[image.Length];
+
+		for(int i=0;i<data.Length;i++){
+			data[i] = (byte)(long)image[i];
+		}
+
+		Texture2D texture = new Texture2D(width, height);
+		texture.LoadImage(data);
+
 		return texture;
 	}
 }

@@ -1,0 +1,36 @@
+﻿2014/11/27 23:16:22 にビルドを開始しました。
+     1>ノード 2 上のプロジェクト "G:\GitHub\Node-Image-Generator\png\src\libpng\projects\vstudio\zlib\zlib.vcxproj" (Build ターゲット)。
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /nologo /W0 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D Z_SOLO /Gm- /EHsc /MDd /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /FR"Debug\\" /Gd /TC /analyze- /errorReport:prompt ..\..\..\..\zlib\adler32.c ..\..\..\..\zlib\compress.c ..\..\..\..\zlib\crc32.c ..\..\..\..\zlib\deflate.c ..\..\..\..\zlib\infback.c ..\..\..\..\zlib\inffast.c ..\..\..\..\zlib\inflate.c ..\..\..\..\zlib\inftrees.c ..\..\..\..\zlib\trees.c ..\..\..\..\zlib\uncompr.c ..\..\..\..\zlib\zutil.c
+         adler32.c
+         compress.c
+         crc32.c
+         deflate.c
+         infback.c
+         inffast.c
+         inflate.c
+         inftrees.c
+         trees.c
+         uncompr.c
+         zutil.c
+         コードを生成中...
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\Lib.exe /OUT:"G:\GitHub\Node-Image-Generator\png\src\libpng\projects\vstudio\Debug\zlib.lib" /NOLOGO Debug\adler32.obj
+         Debug\compress.obj
+         Debug\crc32.obj
+         Debug\deflate.obj
+         Debug\infback.obj
+         Debug\inffast.obj
+         Debug\inflate.obj
+         Debug\inftrees.obj
+         Debug\trees.obj
+         Debug\uncompr.obj
+         Debug\zutil.obj
+         zlib.vcxproj -> G:\GitHub\Node-Image-Generator\png\src\libpng\projects\vstudio\Debug\zlib.lib
+       BscMake:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\bscmake.exe /nologo /o"G:\GitHub\Node-Image-Generator\png\src\libpng\projects\vstudio\Debug\zlib.bsc" Debug\adler32.sbr Debug\compress.sbr Debug\crc32.sbr Debug\deflate.sbr Debug\infback.sbr Debug\inffast.sbr Debug\inflate.sbr Debug\inftrees.sbr Debug\trees.sbr Debug\uncompr.sbr Debug\zutil.sbr
+     1>プロジェクト "G:\GitHub\Node-Image-Generator\png\src\libpng\projects\vstudio\zlib\zlib.vcxproj" (Build ターゲット) のビルドが完了しました。
+
+ビルドに成功しました。
+
+経過時間 00:00:01.44

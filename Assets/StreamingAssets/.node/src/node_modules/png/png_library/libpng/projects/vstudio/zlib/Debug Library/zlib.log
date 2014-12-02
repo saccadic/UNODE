@@ -1,0 +1,36 @@
+﻿2014/11/27 23:17:03 にビルドを開始しました。
+     1>ノード 2 上のプロジェクト "G:\GitHub\Node-Image-Generator\png\src\libpng\projects\vstudio\zlib\zlib.vcxproj" (Build ターゲット)。
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /nologo /W0 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D Z_SOLO /Gm- /EHsc /MTd /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug Library\\" /Fd"Debug Library\vc120.pdb" /FR"Debug Library\\" /Gd /TC /analyze- /errorReport:prompt ..\..\..\..\zlib\adler32.c ..\..\..\..\zlib\compress.c ..\..\..\..\zlib\crc32.c ..\..\..\..\zlib\deflate.c ..\..\..\..\zlib\infback.c ..\..\..\..\zlib\inffast.c ..\..\..\..\zlib\inflate.c ..\..\..\..\zlib\inftrees.c ..\..\..\..\zlib\trees.c ..\..\..\..\zlib\uncompr.c ..\..\..\..\zlib\zutil.c
+         adler32.c
+         compress.c
+         crc32.c
+         deflate.c
+         infback.c
+         inffast.c
+         inflate.c
+         inftrees.c
+         trees.c
+         uncompr.c
+         zutil.c
+         コードを生成中...
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\Lib.exe /OUT:"G:\GitHub\Node-Image-Generator\png\src\libpng\projects\vstudio\Debug Library\zlib.lib" /NOLOGO "Debug Library\adler32.obj"
+         "Debug Library\compress.obj"
+         "Debug Library\crc32.obj"
+         "Debug Library\deflate.obj"
+         "Debug Library\infback.obj"
+         "Debug Library\inffast.obj"
+         "Debug Library\inflate.obj"
+         "Debug Library\inftrees.obj"
+         "Debug Library\trees.obj"
+         "Debug Library\uncompr.obj"
+         "Debug Library\zutil.obj"
+         zlib.vcxproj -> G:\GitHub\Node-Image-Generator\png\src\libpng\projects\vstudio\Debug Library\zlib.lib
+       BscMake:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\bscmake.exe /nologo /o"G:\GitHub\Node-Image-Generator\png\src\libpng\projects\vstudio\Debug Library\zlib.bsc" "Debug Library\adler32.sbr" "Debug Library\compress.sbr" "Debug Library\crc32.sbr" "Debug Library\deflate.sbr" "Debug Library\infback.sbr" "Debug Library\inffast.sbr" "Debug Library\inflate.sbr" "Debug Library\inftrees.sbr" "Debug Library\trees.sbr" "Debug Library\uncompr.sbr" "Debug Library\zutil.sbr"
+     1>プロジェクト "G:\GitHub\Node-Image-Generator\png\src\libpng\projects\vstudio\zlib\zlib.vcxproj" (Build ターゲット) のビルドが完了しました。
+
+ビルドに成功しました。
+
+経過時間 00:00:00.60

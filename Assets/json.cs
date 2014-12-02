@@ -26,7 +26,7 @@ public class json : MonoBehaviour {
 				}
 			}
 		}
-		*/
+
 
 		if (unode.msg.Length > 0) {
 			var packer = new MiniMessagePacker ();
@@ -39,6 +39,7 @@ public class json : MonoBehaviour {
 			//unode.ws.Connect ();
 			unode.ws.Send("{\"mode\":10}");
 		}
+		*/
 	}
 
 }
