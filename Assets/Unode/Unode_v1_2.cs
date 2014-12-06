@@ -5,12 +5,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
-using WebSocketSharp;
+using WebSocket4Net;
 using MiniMessagePack;
 
 using Debug = UnityEngine.Debug;
 
-public class Unode_v1_1 : MonoBehaviour {
+public class Unode_v1_2 : MonoBehaviour {
 	
 	//Websocket
 	public string adress;
@@ -46,15 +46,15 @@ public class Unode_v1_1 : MonoBehaviour {
 	public byte[] data;
 
 	public object[] obj_data;
-	
+
 	void Awake() {
 		if(run = open_nodejs(x86))
 			ws = new WebSocket(adress);
+			ws.Open();
 	}
 
 	void Start () {
 		if(run){
-			ws.Connect ();
 			var packed_data = new Dictionary<string, object> {
 				{ "mode", "connect" },
 			};
@@ -63,13 +63,18 @@ public class Unode_v1_1 : MonoBehaviour {
 			}
 			send(packed_data);
 		}
-
-		ws.OnOpen += (sender, e) => {
+		ws.Opened += (s, e) => {
 			Debug.Log ("ws.OnOpen:");
 		};
 		
-		ws.OnMessage += (sender, e) => {
-			obj = decode(e.RawData);
+		ws.MessageReceived += (s, e) =>
+		{
+			Debug.Log(e.Message);
+		};
+		
+		
+		ws.DataReceived += (s, e) => {
+			obj = decode(e.Data);
 			dict = obj as Dictionary<string,object>;
 			mode = (string)dict ["mode"];
 			
@@ -83,18 +88,21 @@ public class Unode_v1_1 : MonoBehaviour {
 			}
 		};
 		
-		ws.OnClose += (sender, e) => {
-			Debug.Log ("OnClosed:" + e.Reason);
+		ws.Error += (s,e)=>
+		{
+			Debug.Log(e);
 		};
+		
+		ws.Closed += (s, e) => {
+			Debug.Log ("OnClosed:" + e);
+		};
+
 	}
 	
 	//メインスレッド
 	void Update () {
-		if (run && ws.IsAlive && ws != null) {
+		if (run && ws != null) {
 
-
-			Debug.Log ("Ping:"+ws.Ping());
-			//ws.WaitTime = TimeSpan.FromSeconds(10);
 
 			if(Input.GetMouseButtonDown(0)){
 				var packed_data = new Dictionary<string, object> {
@@ -173,7 +181,8 @@ public class Unode_v1_1 : MonoBehaviour {
 
 	public void send(Dictionary<string,object> data){
 		byte[] msgpakage = encode(data);
-		ws.Send(msgpakage);
+		Debug.Log (msgpakage);
+		ws.Send(msgpakage,0,msgpakage.Length);
 	}
 
 	public void regist_js(string name,string js){

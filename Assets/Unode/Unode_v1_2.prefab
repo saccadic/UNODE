@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 400000}
   - 114: {fileID: 11400000}
   m_Layer: 0
-  m_Name: Unode_1_1
+  m_Name: Unode_v1_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36,11 +36,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b10b747b96f2d44db1a21a7d7b9249f, type: 3}
+  m_Script: {fileID: 11500000, guid: bd08fc5836fa6f14397b88aa3ea0eb02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  adress: ws://127.0.0.1:5000/
-  msg: 
+  adress: ws://127.0.0.1:8080/
   mode: 
   program_name: node.exe
   x86: 1
@@ -48,13 +47,10 @@ MonoBehaviour:
   Script_path: 
   cmd: 0
   command: 
-  js: simple-server.js
+  js: mainserver.js
   windowtype_hidden: 0
-  sound: 0
-  file: 
+  js_codes: []
   data: 
-  triger: 0
-  tmp: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
