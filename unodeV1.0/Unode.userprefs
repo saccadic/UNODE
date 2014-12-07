@@ -1,0 +1,15 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\controller.cs">
+    <Files>
+      <File FileName="Assets\vnc.cs" Line="32" Column="20" />
+      <File FileName="Assets\MiniJSON\MiniJSON_test.cs" Line="1" Column="1" />
+      <File FileName="Assets\imgs.cs" Line="10" Column="55" />
+      <File FileName="Assets\controller.cs" Line="10" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
