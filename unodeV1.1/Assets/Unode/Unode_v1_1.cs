@@ -175,4 +175,42 @@ public class Unode_v1_1 : MonoBehaviour {
 		};
 		send(s,packed_data);		
 	}
+
+	public void send_transform(WebSocket s,GameObject obj){
+		var localPosition = new Dictionary<string, object> {
+			{ "x", obj.transform.localPosition.x},
+			{ "y", obj.transform.localPosition.y},
+			{ "z", obj.transform.localPosition.z}
+		};
+		var localEulerAngles = new Dictionary<string, object> {
+			{ "x", obj.transform.localEulerAngles.x},
+			{ "y", obj.transform.localEulerAngles.y},
+			{ "z", obj.transform.localEulerAngles.z}
+		};
+		var localScale = new Dictionary<string, object> {
+			{ "x", obj.transform.localScale.x},
+			{ "y", obj.transform.localScale.y},
+			{ "z", obj.transform.localScale.z}
+		};
+		var packed_data = new Dictionary<string, object> {
+			{ "mode", "transform" },
+			{ "name", obj.name},
+			{ "localPosition", localPosition},
+			{ "localEulerAngles", localEulerAngles},
+			{ "localScale", localScale},
+		};
+		send(s,packed_data);		
+	}
+
+	public void recive_transform(Dictionary<string,object> transformData){
+		if(gameObject.name == (string)transformData["name"]){
+			var l_pos         = (Dictionary<string,object>)transformData["localPosition"];
+			var l_EulerAngles = (Dictionary<string,object>)transformData["localPosition"];
+			var l_Scale       = (Dictionary<string,object>)transformData["localPosition"];
+			
+			transform.localPosition    = new Vector3((long)l_pos["x"],(long)l_pos["y"],(long)l_pos["z"]);
+			transform.localEulerAngles = new Vector3((long)l_EulerAngles["x"],(long)l_EulerAngles["y"],(long)l_EulerAngles["z"]);
+			transform.localScale       = new Vector3((long)l_Scale["x"],(long)l_Scale["y"],(long)l_Scale["z"]);
+		}
+	}
 }

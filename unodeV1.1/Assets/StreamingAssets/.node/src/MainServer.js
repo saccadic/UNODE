@@ -20,12 +20,12 @@ function sendTOunity(client,message){
 }
 
 server.on('connection', function(client) {
-    console.log('connection start:');
+    console.log('connection start:'+client.adress);
     
     // クライアントからのメッセージ受信イベントを処理
     client.on('message', function(request) {
         var data = msgpack.decode(request);
-        console.log("Unity -> Nodejs:",data);
+        //console.log("Unity -> Nodejs:",data);
 
 	//--------------Main area--------------
         switch (data.mode) {
@@ -51,6 +51,9 @@ server.on('connection', function(client) {
                 }else{
                     children[data.name].child.send(data.options);
                 }
+                break;
+            case "transform":
+                //console.log(data)
                 break;
             case "echo":
                 var message = {

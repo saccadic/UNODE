@@ -13,6 +13,9 @@ public class NodeJTalk : MonoBehaviour {
 	//Websocket
 	private WebSocket ws;
 
+	//Messagepack
+	public Dictionary<string,object> Msgpack;
+
 	public string Dictionary;
 	public string Voice;
 	public int Sampling;
@@ -39,8 +42,8 @@ public class NodeJTalk : MonoBehaviour {
 
 		ws.OnMessage += (sender, e) => {
 			var obj = unode.decode (e.RawData);
-			var Msgpack = obj as Dictionary<string,object>;
-			mode = (string)Msgpack ["mode"];
+			Msgpack = obj as Dictionary<string,object>;
+			mode    = (string)Msgpack ["mode"];
 		};
 
 		ws.OnError += (object sender, ErrorEventArgs e) => {
@@ -55,10 +58,10 @@ public class NodeJTalk : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
 		if(mode == "talking"){
+			mode = string.Empty;
 			if (gameObject.GetComponent<voice> () == null)
 				gameObject.AddComponent<voice> ().file = file;
 		}
-		mode = string.Empty;
 
 		if(Input.GetMouseButtonDown(0)){
 			if(gameObject.GetComponent<voice> () == true)
@@ -83,6 +86,4 @@ public class NodeJTalk : MonoBehaviour {
 		};
 		unode.run_js(ws,"openjtalk",option);
 	}
-
-
 }
