@@ -238,7 +238,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   obj: {fileID: 100000, guid: 7fd57c861b592904db691f8a7bf0dd93, type: 2}
-  v: {x: 6, y: 6, z: 6}
+  v: {x: 10, y: 10, z: 10}
   offset: 4
 --- !u!4 &1021051748
 Transform:

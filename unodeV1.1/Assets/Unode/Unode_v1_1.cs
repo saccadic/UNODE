@@ -18,7 +18,12 @@ public class Unode_v1_1 : MonoBehaviour {
 	public bool run;
 
 	//Messagepack
-	public Dictionary<string,object> Msgpack;
+	MiniMessagePacker pakage;
+	private Dictionary<string,object>	Msgpack,
+										packed_data,
+										localPosition,
+										localEulerAngles,
+										localScale;
 	private object obj;
 	public string mode;
 
@@ -41,6 +46,7 @@ public class Unode_v1_1 : MonoBehaviour {
 	void Awake() {
 		if(run = open_nodejs(x86))
 			ws = new WebSocket(adress);
+		 	pakage = new MiniMessagePacker ();
 	}
 
 	void Start () {
@@ -58,8 +64,7 @@ public class Unode_v1_1 : MonoBehaviour {
 		};
 		
 		ws.OnMessage += (sender, e) => {
-			obj = decode(e.RawData);
-			Msgpack = obj as Dictionary<string,object>;
+			Msgpack = decode(e.RawData) as Dictionary<string,object>;
 			mode = (string)Msgpack["mode"];
 			switch(mode){
 				case "connected":
@@ -82,9 +87,9 @@ public class Unode_v1_1 : MonoBehaviour {
 	}
 	
 	//メインスレッド
-	void FixedUpdate () {
+	void Update () {
 		if (run && ws.IsAlive && ws != null) {
-			Debug.Log("Ping:"+ws.Ping());
+			//Debug.Log("Ping:"+ws.Ping());
 		} else {
 			Debug.Log("Error:Not Run Node.js");
 		}
@@ -139,22 +144,15 @@ public class Unode_v1_1 : MonoBehaviour {
 	}
 
 	public byte[] encode(Dictionary<string,object> data){
-		var pakage = new MiniMessagePacker ();
-		byte[] msgpakage = pakage.Pack(data);
-
-		return msgpakage;
+		return pakage.Pack(data);
 	}
 
 	public object decode(byte[] data){
-		var pakage = new MiniMessagePacker ();
-		object unpakage = pakage.Unpack(data);
-		
-		return unpakage;
+		return pakage.Unpack(data);
 	}
 
 	public void send(WebSocket s,Dictionary<string,object> data){
-		byte[] msgpakage = encode(data);
-		s.Send(msgpakage);
+		s.Send(encode(data));
 	}
 
 	public void regist_js(WebSocket s,string name,string js){
@@ -177,29 +175,30 @@ public class Unode_v1_1 : MonoBehaviour {
 	}
 
 	public void send_transform(WebSocket s,GameObject obj){
-		var localPosition = new Dictionary<string, object> {
+		localPosition = new Dictionary<string, object> {
 			{ "x", obj.transform.localPosition.x},
 			{ "y", obj.transform.localPosition.y},
 			{ "z", obj.transform.localPosition.z}
 		};
-		var localEulerAngles = new Dictionary<string, object> {
+		localEulerAngles = new Dictionary<string, object> {
 			{ "x", obj.transform.localEulerAngles.x},
 			{ "y", obj.transform.localEulerAngles.y},
 			{ "z", obj.transform.localEulerAngles.z}
 		};
-		var localScale = new Dictionary<string, object> {
+		localScale = new Dictionary<string, object> {
 			{ "x", obj.transform.localScale.x},
 			{ "y", obj.transform.localScale.y},
 			{ "z", obj.transform.localScale.z}
 		};
-		var packed_data = new Dictionary<string, object> {
+		packed_data = new Dictionary<string, object> {
 			{ "mode", "transform" },
 			{ "name", obj.name},
 			{ "localPosition", localPosition},
 			{ "localEulerAngles", localEulerAngles},
 			{ "localScale", localScale},
 		};
-		send(s,packed_data);		
+		ws.Send("atestsaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+		//ws.SendAsync ("test");
 	}
 
 	public void recive_transform(Dictionary<string,object> transformData){
