@@ -13,8 +13,6 @@ var text        = '吾輩は猫である';
 process.on("message",function(msg) {
     console.log("NodeJTalk@SYSTEM");
     
-    
-    
     nodejtalk.setup(path+msg.dic,path+msg.voice,msg.sample,file_path + msg.file);
 
     nodejtalk.run(msg.text);

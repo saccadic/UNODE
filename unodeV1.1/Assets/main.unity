@@ -113,7 +113,7 @@ MonoBehaviour:
   connected: 0
   cmd: 0
   command: 
-  js: mainserver.js
+  js: mainserver2.js
 --- !u!4 &15908066
 Transform:
   m_ObjectHideFlags: 0
@@ -191,7 +191,7 @@ Camera:
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_RenderingPath: -1
+  m_RenderingPath: 2
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_HDR: 0
@@ -238,7 +238,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   obj: {fileID: 100000, guid: 7fd57c861b592904db691f8a7bf0dd93, type: 2}
-  v: {x: 10, y: 10, z: 10}
+  v: {x: 2, y: 1, z: 1}
   offset: 4
 --- !u!4 &1021051748
 Transform:
@@ -296,6 +296,69 @@ Prefab:
   m_RootGameObject: {fileID: 1857408790}
   m_IsPrefabParent: 0
   m_IsExploded: 1
+--- !u!1 &1668617358
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1668617360}
+  - 108: {fileID: 1668617359}
+  m_Layer: 0
+  m_Name: Directional light
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!108 &1668617359
+Light:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1668617358}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Type: 1
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: .5
+  m_Range: 10
+  m_SpotAngle: 30
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 1
+    m_Resolution: 3
+    m_Strength: 1
+    m_Bias: .0500000007
+    m_Softness: 4
+    m_SoftnessFade: 1
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_ActuallyLightmapped: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_Lightmapping: 1
+  m_ShadowSamples: 1
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
+  m_IndirectIntensity: 1
+  m_AreaSize: {x: 1, y: 1}
+--- !u!4 &1668617360
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1668617358}
+  m_LocalRotation: {x: .408217937, y: -.234569728, z: .109381661, w: .875426114}
+  m_LocalPosition: {x: 12.6870003, y: 21.0310001, z: -11.7419996}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
 --- !u!1001 &1849786004
 Prefab:
   m_ObjectHideFlags: 0
@@ -346,6 +409,10 @@ Prefab:
     - target: {fileID: 11400000, guid: 69ce0706b1286c54a95c9b5d1f220de7, type: 2}
       propertyPath: x86
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 69ce0706b1286c54a95c9b5d1f220de7, type: 2}
+      propertyPath: js
+      value: mainserver2.js
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 69ce0706b1286c54a95c9b5d1f220de7, type: 2}

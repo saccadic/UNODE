@@ -47,16 +47,16 @@ public class NodeJTalk : MonoBehaviour {
 		};
 
 		ws.OnError += (object sender, ErrorEventArgs e) => {
-				Debug.Log ("OnClosed:" + e.Message);
+			Debug.Log ("OnError[NodeJTalk]:" + e.Message);
 		};
 
 		ws.OnClose += (object sender, CloseEventArgs e) => {
-				Debug.Log ("OnClosed:" + e.Reason);
+			Debug.Log ("OnClosed[NodeJTalk]:" + e.Reason);
 		};
 	}
 	
 	// Update is called once per frame
-	void FixedUpdate () {
+	void Update () {
 		if(mode == "talking"){
 			mode = string.Empty;
 			if (gameObject.GetComponent<voice> () == null)
@@ -71,6 +71,11 @@ public class NodeJTalk : MonoBehaviour {
 		if(Input.GetMouseButtonDown(1)){
 			talk("現在時刻は" + DateTime.Now.ToString("yyyy年MM月dd日 HH時mm分ss秒") + "です。");
 		}
+	}
+
+	void OnApplicationQuit() {
+		if(ws != null)
+			ws.Close();
 	}
 
 	void talk(string str){

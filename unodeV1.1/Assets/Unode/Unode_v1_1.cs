@@ -55,6 +55,7 @@ public class Unode_v1_1 : MonoBehaviour {
 			//ws.WaitTime = TimeSpan.FromSeconds(10);
 			var packed_data = new Dictionary<string, object> {
 				{ "mode", "connect" },
+				{ "name", name },
 			};
 			send(ws,packed_data);
 		}
@@ -78,11 +79,11 @@ public class Unode_v1_1 : MonoBehaviour {
 		};
 
 		ws.OnError += (object sender, ErrorEventArgs e) => {
-			Debug.Log ("OnClosed:" + e.Message);
+			Debug.Log ("OnError[unode]:" + e.Message);
 		};
 
 		ws.OnClose += (object sender, CloseEventArgs e) => {
-			Debug.Log ("OnClosed:" + e.Reason);
+			Debug.Log ("OnClosed[unode]:" + e.Reason);
 		};
 	}
 	
@@ -97,10 +98,6 @@ public class Unode_v1_1 : MonoBehaviour {
 
 	void OnApplicationQuit() {
 		if (ws != null) {
-			var packed_data = new Dictionary<string, object> {
-				{ "mode", "exit" }
-			};
-			send (ws,packed_data);
 			ws.Close ();
 		}
 		kill_nodejs ();
@@ -156,7 +153,7 @@ public class Unode_v1_1 : MonoBehaviour {
 	}
 
 	public void regist_js(WebSocket s,string name,string js){
-		var packed_data = new Dictionary<string, object> {
+		packed_data = new Dictionary<string, object> {
 			{ "mode", "child" },
 			{ "regist", true},
 			{ "name", name},
@@ -202,14 +199,12 @@ public class Unode_v1_1 : MonoBehaviour {
 	}
 
 	public void recive_transform(Dictionary<string,object> transformData){
-		if(gameObject.name == (string)transformData["name"]){
-			var l_pos         = (Dictionary<string,object>)transformData["localPosition"];
-			var l_EulerAngles = (Dictionary<string,object>)transformData["localPosition"];
-			var l_Scale       = (Dictionary<string,object>)transformData["localPosition"];
-			
-			transform.localPosition    = new Vector3((long)l_pos["x"],(long)l_pos["y"],(long)l_pos["z"]);
-			transform.localEulerAngles = new Vector3((long)l_EulerAngles["x"],(long)l_EulerAngles["y"],(long)l_EulerAngles["z"]);
-			transform.localScale       = new Vector3((long)l_Scale["x"],(long)l_Scale["y"],(long)l_Scale["z"]);
-		}
+		var l_pos         = (Dictionary<string,object>)transformData["localPosition"];
+		var l_EulerAngles = (Dictionary<string,object>)transformData["localPosition"];
+		var l_Scale       = (Dictionary<string,object>)transformData["localPosition"];
+		
+		transform.localPosition    = new Vector3((long)l_pos["x"],(long)l_pos["y"],(long)l_pos["z"]);
+		transform.localEulerAngles = new Vector3((long)l_EulerAngles["x"],(long)l_EulerAngles["y"],(long)l_EulerAngles["z"]);
+		transform.localScale       = new Vector3((long)l_Scale["x"],(long)l_Scale["y"],(long)l_Scale["z"]);
 	}
 }

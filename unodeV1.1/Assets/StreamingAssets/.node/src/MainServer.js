@@ -11,6 +11,7 @@ function sendTOunity(client,message){
     try{
         var bytedata = msgpack.encode(message);
         client.send(bytedata,{binary:true});
+	
         //console.log("Nodejs -> Unity:",bytedata);
     }catch(e){
         console.log("Error:",e);
@@ -75,10 +76,10 @@ if (cluster.isMaster) {
 		    break;
 		case "transform":
 		    var message = {
-			mode : data.name,
+			mode : 'transform',
 		    }		    
-		    //sendTOunity(client,data);
-		    //console.log(data)
+		    sendTOunity(client,message);
+		    console.log(data)
 		    break;
 		case "echo":
 		    var message = {
