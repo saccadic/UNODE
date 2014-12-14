@@ -8,9 +8,10 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400000}
+  - 114: {fileID: 11400002}
   - 114: {fileID: 11400000}
   m_Layer: 0
-  m_Name: Unode_v1_1
+  m_Name: boxes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23,7 +24,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: .489279985}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -36,21 +37,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b10b747b96f2d44db1a21a7d7b9249f, type: 3}
+  m_Script: {fileID: 11500000, guid: 236362a2b0dbcad45be9cd61fb9ad7c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  adress: ws://127.0.0.1:8080/
-  run: 0
+  unode: {fileID: 0}
+  wait: .100000001
+  ObjectName: 
   mode: 
-  program_name: node.exe
-  windowtype_hidden: 0
-  x86: 1
-  nodejs_path: 
-  Script_path: 
-  connected: 0
-  cmd: 0
-  command: 
-  js: mainserver2.js
+  objects: []
+  SendMode: 0
+--- !u!114 &11400002
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 972c0ad15f917674082cd62e692f2157, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obj: {fileID: 100000, guid: 3a51246548b16a449885c3e892baff71, type: 2}
+  v: {x: 2, y: 1, z: 1}
+  offset: 4
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

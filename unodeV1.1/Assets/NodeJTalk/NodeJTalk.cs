@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 using WebSocketSharp;
 
 public class NodeJTalk : MonoBehaviour {
-	public Unode_v1_1 unode;
+	public Unode_v1_3 unode;
 
 	//Websocket
 	private WebSocket ws;
@@ -25,7 +25,7 @@ public class NodeJTalk : MonoBehaviour {
 	private string mode;
 
 	void Awake() {
-		unode = GameObject.Find ("Unode").GetComponent<Unode_v1_1> ();
+		unode = GameObject.Find ("Unode_v1_3").GetComponent<Unode_v1_3> ();
 	}
 
 	// Use this for initialization
@@ -34,14 +34,14 @@ public class NodeJTalk : MonoBehaviour {
 		ws = new WebSocket (unode.adress);
 
 		ws.Connect ();
-		unode.regist_js (ws, "openjtalk", "NodeJTalk.js");
+		unode.RegistNodeModule (ws, "openjtalk", "NodeJTalk.js");
 
 		ws.OnOpen += (sender, e) => {
 			Debug.Log ("NodeJTalk.OnOpen:");
 		};
 
 		ws.OnMessage += (sender, e) => {
-			var obj = unode.decode (e.RawData);
+			var obj = unode.MessagePackDecode (e.RawData);
 			Msgpack = obj as Dictionary<string,object>;
 			mode    = (string)Msgpack ["mode"];
 		};
@@ -89,6 +89,6 @@ public class NodeJTalk : MonoBehaviour {
 			{ "file" , file},
 			{ "text" , str}
 		};
-		unode.run_js(ws,"openjtalk",option);
+		unode.SendToNodeModule(ws,"openjtalk",option);
 	}
 }
