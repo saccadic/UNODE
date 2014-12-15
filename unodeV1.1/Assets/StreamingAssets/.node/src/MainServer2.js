@@ -8,6 +8,7 @@ var WebSocketServer = require('ws').Server
 var msgpack = require('msgpack-js');
 
 var children = {};
+var TransformClients = [];
 
 function sendTOunity(client,message){
     try{
@@ -18,6 +19,13 @@ function sendTOunity(client,message){
         //console.log("Nodejs -> Unity:",bytedata);
     }catch(e){
         console.log("Error:",e);
+    }
+}
+
+function BroadcastToUnity(SelfClient,message) {
+    for(var i=0;i<TransformClients.length;i++){
+	if(TransformClients[i] != SelfClient)
+	    sendTOunity(TransformClients[i],message);
     }
 }
 
@@ -76,8 +84,15 @@ if (cluster.isMaster) {
 		    break;
 		case "transform":
 		    //client.send(data.name);
-		    sendTOunity(client,data);
-		    //console.log("Name:%s [%s]",data.name,new Date());
+		    if (data.regist != null) {
+			TransformClients.push(client);
+			console.log("TransformClients:"+TransformClients.length);
+		    }else{
+			for(var i=0;i<data.size;i++){
+			    console.log("Name:%s ObjectSize:%d DataSize:%d",data.objects[i].name,data.size,request.length);
+			}
+			BroadcastToUnity(client,data);
+		    }
 		    //console.log(util.inspect(data,false,null));
 		    break;
 		case "echo":
@@ -98,6 +113,10 @@ if (cluster.isMaster) {
      
 	// 通信がクローズしたときの処理
 	client.on('close', function(){
+	    for(var i=0;i<TransformClients.length;i++){
+		if(TransformClients[i] == client)
+		    TransformClients.splice(i,1);
+	    }
 	    console.log('connection close');
 	});
      

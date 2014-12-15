@@ -12,6 +12,7 @@ public class Unode_transform_v2 : MonoBehaviour {
 	//Websocket
 	private WebSocket ws = null;	
 	public float wait=1.0f;
+	public bool connected = false;
 
 	//Messagepack
 	private Dictionary<string,object>	Msgpack,
@@ -19,7 +20,7 @@ public class Unode_transform_v2 : MonoBehaviour {
 										localPosition,
 										localEulerAngles,
 										localScale;
-	private Dictionary<string,object>[] array;
+	private List<object> list;
 
 	//Program Options
 	public string ObjectName;
@@ -27,7 +28,7 @@ public class Unode_transform_v2 : MonoBehaviour {
 	private object data;
 	private GameObject[] objects;
 	public bool SendMode = false;
-
+	private float time = 0.0f;
 	void Awake() {
 		unode = GameObject.Find ("Unode_v1_3").GetComponent<Unode_v1_3> ();
 
@@ -50,7 +51,8 @@ public class Unode_transform_v2 : MonoBehaviour {
 		packed_data = new Dictionary<string, object> {
 			{ "mode", "transform" },
 			{ "name", name},
-			{ "objects" , array}
+			{ "size", 0},
+			{ "objects" , 0}
 		};
 	}
 
@@ -60,85 +62,98 @@ public class Unode_transform_v2 : MonoBehaviour {
 			ObjectName = name;
 			ws = new WebSocket (unode.adress);
 			SetupTransform (ws, unode.adress);
-			StartCoroutine (transformToNodeJS ());
+			//StartCoroutine (transformToNodeJS ());
 		}
 	}
 	
-	// Update is called once per frame
-	void Update () {
 
+	void Update () {
+		time = time + Time.deltaTime;
+		if(time >= wait){
+			time = 0;
+			transformToNodeJS();
+		}
 	}
+
 
 	void OnApplicationQuit() {
 		if(ws != null)
 			ws.Close();
 	}
 
-	public void recive_transform(Dictionary<string,object> transformData){
-		var l_pos         = (Dictionary<string,object>)transformData["localPosition"];
-		var l_EulerAngles = (Dictionary<string,object>)transformData["localPosition"];
-		var l_Scale       = (Dictionary<string,object>)transformData["localPosition"];
-		
-		transform.localPosition    = new Vector3((long)l_pos["x"],(long)l_pos["y"],(long)l_pos["z"]);
-		transform.localEulerAngles = new Vector3((long)l_EulerAngles["x"],(long)l_EulerAngles["y"],(long)l_EulerAngles["z"]);
-		transform.localScale       = new Vector3((long)l_Scale["x"],(long)l_Scale["y"],(long)l_Scale["z"]);
+	private void ReciveTransform(Dictionary<string,object> dic){
+		try{
+			SendMode = false;
+			var objects = dic["objects"] as Dictionary<string,object>[];
+			foreach(Dictionary<string,object> data in objects){
+				var obj = GameObject.Find((string)data["name"]);
+				var l_pos         = (Dictionary<string,object>)data["localPosition"];
+				var l_EulerAngles = (Dictionary<string,object>)data["localPosition"];
+				var l_Scale       = (Dictionary<string,object>)data["localPosition"];
+
+				obj.transform.localPosition    = new Vector3((long)l_pos["x"],(long)l_pos["y"],(long)l_pos["z"]);
+				obj.transform.localEulerAngles = new Vector3((long)l_EulerAngles["x"],(long)l_EulerAngles["y"],(long)l_EulerAngles["z"]);
+				obj.transform.localScale       = new Vector3((long)l_Scale["x"],(long)l_Scale["y"],(long)l_Scale["z"]);
+			}
+		}catch{
+			Debug.Log("error"+"["+ObjectName+"]"+":ReciveTransform");
+		}
 	}
 	
-	IEnumerator transformToNodeJS(){
-		while(true){
-			objects = GameObject.FindGameObjectsWithTag("TransformToNodeJS");
+	//IEnumerator transformToNodeJS(){
+	private void transformToNodeJS(){
+		objects = GameObject.FindGameObjectsWithTag("TransformToNodeJS");
+		if(objects.Length > 0){
 
-			if(objects.Length > 0){
-				array = new Dictionary<string, object>[objects.Length];
+			//array = new Dictionary<string, object>();
+			list = new List<object>();
 
-				for(int i=0;i<array.Length;i++){
-					try{
-						if(objects[i].transform.hasChanged){
-							objects[i].transform.hasChanged = false;
-							SendMode = true;
+			for(int i=0;i<objects.Length;i++){
+				try{
+					if(objects[i].transform.hasChanged){
+						objects[i].transform.hasChanged = false;
+						SendMode = true;
+						
+						localPosition ["x"] = objects[i].transform.localPosition.x;
+						localPosition ["y"] = objects[i].transform.localPosition.y;
+						localPosition ["z"] = objects[i].transform.localPosition.z;
+						
+						localEulerAngles ["x"] = objects[i].transform.localEulerAngles.x;
+						localEulerAngles ["y"] = objects[i].transform.localEulerAngles.y;
+						localEulerAngles ["z"] = objects[i].transform.localEulerAngles.z;
+						
+						localScale ["x"] = objects[i].transform.localScale.x;
+						localScale ["y"] = objects[i].transform.localScale.y;
+						localScale ["z"] = objects[i].transform.localScale.z;
+						
+						var data = new Dictionary<string, object>{
+							{ "name", objects[i].name},
+							{ "localPosition", localPosition},
+							{ "localEulerAngles", localEulerAngles},
+							{ "localScale", localScale}
+						};
 
-							localPosition ["x"] = objects[i].transform.localPosition.x;
-							localPosition ["y"] = objects[i].transform.localPosition.y;
-							localPosition ["z"] = objects[i].transform.localPosition.z;
-							
-							localEulerAngles ["x"] = objects[i].transform.localEulerAngles.x;
-							localEulerAngles ["y"] = objects[i].transform.localEulerAngles.y;
-							localEulerAngles ["z"] = objects[i].transform.localEulerAngles.z;
-							
-							localScale ["x"] = objects[i].transform.localScale.x;
-							localScale ["y"] = objects[i].transform.localScale.y;
-							localScale ["z"] = objects[i].transform.localScale.z;
-							
-							array[i] = new Dictionary<string, object>{
-								{ "name", objects[i].name},
-								{ "localPosition", localPosition},
-								{ "localEulerAngles", localEulerAngles},
-								{ "localScale", localScale}
-							};
-							//Debug.Log("Update"+"["+objects[i].name+"]");
-						}else {
-							if(mode.Length>0)
-								mode = string.Empty;
-						}
-					}catch{
-						Debug.Log("error"+"["+objects[i].name+"]"+":Dictionary");
+						list.Add(data);
+					}else {
+						if(mode.Length>0)
+							mode = string.Empty;
 					}
-				}
-
-				packed_data["objects"] = array;
-
-				if(SendMode){
-					SendMode = false;
-					try{
-						unode.send(ws,packed_data);
-					}catch{
-						Debug.Log("error"+"["+ObjectName+"]"+":send");
-					}
+				}catch{
+					Debug.Log("error"+"["+objects[i].name+"]"+":Dictionary");
 				}
 			}
 
-			yield return new WaitForSeconds (wait);
-			//StartCoroutine(transformToNodeJS());
+			packed_data["size"] = list.Count;
+			packed_data["objects"] = list;
+
+			if(SendMode){
+				SendMode = false;
+				try{
+					unode.send(ws,packed_data);
+				}catch{
+					Debug.Log("error"+"["+ObjectName+"]"+":send");
+				}
+			}
 		}
 	}
 
@@ -149,20 +164,35 @@ public class Unode_transform_v2 : MonoBehaviour {
 		ws.OnOpen += (sender, e) => {
 			Debug.Log ("Unode_transform.OnOpen:");
 		};
-		
+
+		var packed_data = new Dictionary<string, object> {
+			{ "mode", "transform" },
+			{ "regist", true },
+		};
+		unode.send(ws,packed_data);
+
 		ws.OnMessage += (sender, e) => {
 			switch(e.Type){
 				case Opcode.Binary:
 					try{
 						Msgpack = unode.MessagePackDecode(e.RawData) as Dictionary<string,object>;
 						if(Msgpack.TryGetValue("mode",out data)){
-							//Debug.Log("["+ObjectName+"]byte::"+e.RawData.Length);
 							mode = (string)data;
+							switch(mode){
+								case "connected":
+									connected = true;
+									break;
+								case "transform":
+									if(connected)
+										ReciveTransform(Msgpack);
+									break;
+							}
 							if(mode == "transform"){
-								//unode.recive_transform(Msgpack);
+								Debug.Log("["+ObjectName+"]byte::"+e.RawData.Length);
+							 	ReciveTransform(Msgpack);
 							}	
 						}else{
-							Debug.Log("error"+"["+ObjectName+"]"+":mode::"+e.RawData.Length);
+							Debug.Log("error"+"["+ObjectName+"]"+"::mode::"+e.RawData.Length);
 						}
 					}catch{
 						Debug.Log("error:"+"["+ObjectName+"]"+"Msgpack");

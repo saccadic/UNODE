@@ -26,15 +26,15 @@ public class NodeJTalk : MonoBehaviour {
 
 	void Awake() {
 		unode = GameObject.Find ("Unode_v1_3").GetComponent<Unode_v1_3> ();
+		ws = new WebSocket (unode.adress);
 	}
 
 	// Use this for initialization
 	void Start () {
 		Debug.Log ("NodeJTalk.");
-		ws = new WebSocket (unode.adress);
 
 		ws.Connect ();
-		unode.RegistNodeModule (ws, "openjtalk", "NodeJTalk.js");
+		unode.RegistNodeModule(ws, "openjtalk", "NodeJTalk.js");
 
 		ws.OnOpen += (sender, e) => {
 			Debug.Log ("NodeJTalk.OnOpen:");

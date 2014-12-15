@@ -157,7 +157,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unode: {fileID: 0}
-  wait: .100000001
+  wait: .300000012
+  connected: 0
   ObjectName: 
   mode: 
   SendMode: 0
@@ -174,8 +175,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   obj: {fileID: 100000, guid: 3a51246548b16a449885c3e892baff71, type: 2}
-  v: {x: 10, y: 10, z: 10}
-  offset: 4
+  v: {x: 10, y: 10, z: 1}
+  offset: 2
 --- !u!4 &952009939
 Transform:
   m_ObjectHideFlags: 0
@@ -183,7 +184,7 @@ Transform:
   m_PrefabInternal: {fileID: 1025252112}
   m_GameObject: {fileID: 952009936}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: .489279985}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -345,7 +346,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 4b4201c4d2e2fb442ade17ee0fbbc80b, type: 2}
       propertyPath: m_LocalPosition.z
-      value: .489279985
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 4b4201c4d2e2fb442ade17ee0fbbc80b, type: 2}
       propertyPath: m_LocalRotation.x
@@ -377,11 +378,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400002, guid: 4b4201c4d2e2fb442ade17ee0fbbc80b, type: 2}
       propertyPath: v.z
-      value: 10
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 4b4201c4d2e2fb442ade17ee0fbbc80b, type: 2}
       propertyPath: wait
-      value: .100000001
+      value: .300000012
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400002, guid: 4b4201c4d2e2fb442ade17ee0fbbc80b, type: 2}
+      propertyPath: offset
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4b4201c4d2e2fb442ade17ee0fbbc80b, type: 2}
