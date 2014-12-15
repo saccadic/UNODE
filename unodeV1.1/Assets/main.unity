@@ -157,7 +157,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unode: {fileID: 0}
-  wait: 1
+  wait: 0
   connected: 0
   ObjectName: 
   mode: 
@@ -383,7 +383,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 4b4201c4d2e2fb442ade17ee0fbbc80b, type: 2}
       propertyPath: wait
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11400002, guid: 4b4201c4d2e2fb442ade17ee0fbbc80b, type: 2}
       propertyPath: offset

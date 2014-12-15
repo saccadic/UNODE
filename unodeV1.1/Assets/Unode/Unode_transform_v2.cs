@@ -69,6 +69,8 @@ public class Unode_transform_v2 : MonoBehaviour {
 			SetupTransform (ws, unode.adress);
 			//StartCoroutine (transformToNodeJS ());
 		}
+		objects = GameObject.FindGameObjectsWithTag("TransformToNodeJS");
+		object_dic = objects.ToDictionary (n => n.name,n => (object)n);
 	}
 
 	void Update () {
@@ -76,9 +78,12 @@ public class Unode_transform_v2 : MonoBehaviour {
 		SendMode = false;
 		if(time >= wait){
 			time = 0;
-			objects = GameObject.FindGameObjectsWithTag("TransformToNodeJS");
-			object_dic = objects.ToDictionary (n => n.name,n => (object)n);
-			transformToNodeJS(objects);	
+			if(objects.Length<999){
+				objects = GameObject.FindGameObjectsWithTag("TransformToNodeJS");
+				object_dic = objects.ToDictionary (n => n.name,n => (object)n);
+			}
+			if(!ReciveMode)
+				transformToNodeJS(objects);	
 		}
 
 		if (ReciveMode) {
@@ -97,13 +102,13 @@ public class Unode_transform_v2 : MonoBehaviour {
 	private void ReciveTransform(Dictionary<string,object> dic,Dictionary<string,object> GameObjs){
 		try{
 			var objects = dic["objects"] as List<object>;
-			Debug.Log ("size:"+objects.Count);
+			//Debug.Log ("size:"+objects.Count);
 
 			for(int i=0;i<objects.Count;i++){
 				var data = objects[i] as Dictionary<string,object>;
 				GameObject obj = GameObjs[(string)data["name"]] as GameObject; //GameObject.Find((string)data["name"]);
 	
-				Debug.Log("name:"+obj);
+				//Debug.Log("name:"+obj);
 
 				var l_pos         = (Dictionary<string,object>)data["localPosition"];
 				var l_EulerAngles = (Dictionary<string,object>)data["localEulerAngles"];
