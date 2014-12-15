@@ -78,14 +78,14 @@ public class Unode_transform_v2 : MonoBehaviour {
 			time = 0;
 			objects = GameObject.FindGameObjectsWithTag("TransformToNodeJS");
 			object_dic = objects.ToDictionary (n => n.name,n => (object)n);
-			transformToNodeJS(objects);
+			transformToNodeJS(objects);	
 		}
-		/*
-		if(ReciveMode){
+
+		if (ReciveMode) {
 			ReciveMode = false;
-			ReciveTransform (Msgpack,object_dic);			
+			ReciveTransform (Msgpack, object_dic);			
 		}
-*/
+
 
 	}
 	
@@ -101,15 +101,14 @@ public class Unode_transform_v2 : MonoBehaviour {
 
 			for(int i=0;i<objects.Count;i++){
 				var data = objects[i] as Dictionary<string,object>;
-				GameObject obj = GameObject.Find((string)data["name"]);
-
-
+				GameObject obj = GameObjs[(string)data["name"]] as GameObject; //GameObject.Find((string)data["name"]);
+	
 				Debug.Log("name:"+obj);
 
 				var l_pos         = (Dictionary<string,object>)data["localPosition"];
 				var l_EulerAngles = (Dictionary<string,object>)data["localEulerAngles"];
 				var l_Scale       = (Dictionary<string,object>)data["localScale"];
-				//Debug.Log((float)(double)l_pos["x"]);
+
 				obj.transform.localPosition  = new Vector3(
 						float.Parse((string)l_pos["x"]),
 						float.Parse((string)l_pos["y"]),
@@ -125,10 +124,6 @@ public class Unode_transform_v2 : MonoBehaviour {
 						float.Parse((string)l_Scale["y"]),
 						float.Parse((string)l_Scale["z"])
 					);
-				//Debug.Log(obj.transform.localPosition);
-				//Debug.Log(obj.transform.localEulerAngles);
-				//Debug.Log(obj.transform.localScale);
-
 			}
 			
 		}catch{

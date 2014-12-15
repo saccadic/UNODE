@@ -157,7 +157,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unode: {fileID: 0}
-  wait: 0
+  wait: 1
   connected: 0
   ObjectName: 
   mode: 
@@ -176,8 +176,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   obj: {fileID: 100000, guid: 3a51246548b16a449885c3e892baff71, type: 2}
-  v: {x: 5, y: 5, z: 5}
-  offset: 2
+  v: {x: 10, y: 10, z: 10}
+  offset: .5
 --- !u!4 &952009939
 Transform:
   m_ObjectHideFlags: 0
@@ -371,23 +371,23 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400002, guid: 4b4201c4d2e2fb442ade17ee0fbbc80b, type: 2}
       propertyPath: v.x
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 11400002, guid: 4b4201c4d2e2fb442ade17ee0fbbc80b, type: 2}
       propertyPath: v.y
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 11400002, guid: 4b4201c4d2e2fb442ade17ee0fbbc80b, type: 2}
       propertyPath: v.z
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 4b4201c4d2e2fb442ade17ee0fbbc80b, type: 2}
       propertyPath: wait
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11400002, guid: 4b4201c4d2e2fb442ade17ee0fbbc80b, type: 2}
       propertyPath: offset
-      value: 2
+      value: .5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4b4201c4d2e2fb442ade17ee0fbbc80b, type: 2}
