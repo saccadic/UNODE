@@ -95,7 +95,7 @@ if (cluster.isMaster) {
 		    }else{
 			//for(var i=0;i<data.size;i++){
 			    //console.log("Name:%s ObjectSize:%d DataSize:%d",data.objects[i].name,data.size,request.length);
-			    //console.log(util.inspect(data,false,null));
+			    console.log(util.inspect(data,false,null));
 			//}
 			console.log(data.size);
 			BroadcastToUnity(client,data);
