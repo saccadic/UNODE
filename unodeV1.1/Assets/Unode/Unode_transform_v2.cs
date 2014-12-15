@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 using WebSocketSharp;
 using MiniMessagePack;
@@ -27,7 +28,9 @@ public class Unode_transform_v2 : MonoBehaviour {
 	public string mode;
 	private object data;
 	private GameObject[] objects;
+	private Dictionary<string,object> object_dic;
 	public bool SendMode = false;
+	public bool ReciveMode=false;
 	private float time = 0.0f;
 	void Awake() {
 		unode = GameObject.Find ("Unode_v1_3").GetComponent<Unode_v1_3> ();
@@ -65,44 +68,57 @@ public class Unode_transform_v2 : MonoBehaviour {
 			//StartCoroutine (transformToNodeJS ());
 		}
 	}
-	
 
 	void Update () {
 		time = time + Time.deltaTime;
 		if(time >= wait){
 			time = 0;
-			transformToNodeJS();
+			objects = GameObject.FindGameObjectsWithTag("TransformToNodeJS");
+			object_dic = objects.ToDictionary (n => n.name,n => (object)n);
+			
+			ReciveTransform (Msgpack,object_dic);
+			transformToNodeJS(objects);
 		}
 	}
-
-
+	
 	void OnApplicationQuit() {
 		if(ws != null)
 			ws.Close();
 	}
 
-	private void ReciveTransform(Dictionary<string,object> dic){
-		try{
-			SendMode = false;
-			var objects = dic["objects"] as Dictionary<string,object>[];
-			foreach(Dictionary<string,object> data in objects){
-				var obj = GameObject.Find((string)data["name"]);
-				var l_pos         = (Dictionary<string,object>)data["localPosition"];
-				var l_EulerAngles = (Dictionary<string,object>)data["localPosition"];
-				var l_Scale       = (Dictionary<string,object>)data["localPosition"];
+	private void ReciveTransform(Dictionary<string,object> dic,Dictionary<string,object> GameObjs){
+		if(ReciveMode){
+			try{
+				ReciveMode = false;
+				SendMode = false;
+				var objects = dic["objects"] as List<object>;
+				Debug.Log (objects.Count);
 
-				obj.transform.localPosition    = new Vector3((long)l_pos["x"],(long)l_pos["y"],(long)l_pos["z"]);
-				obj.transform.localEulerAngles = new Vector3((long)l_EulerAngles["x"],(long)l_EulerAngles["y"],(long)l_EulerAngles["z"]);
-				obj.transform.localScale       = new Vector3((long)l_Scale["x"],(long)l_Scale["y"],(long)l_Scale["z"]);
+				for(int i=0;i<objects.Count;i++){
+					var data = objects[i] as Dictionary<string,object>;
+					GameObject obj = GameObjs[(string)data["name"]] as GameObject;
+
+
+					//Debug.Log((string)data["name"]);
+
+					var l_pos         = (Dictionary<string,object>)data["localPosition"];
+					var l_EulerAngles = (Dictionary<string,object>)data["localEulerAngles"];
+					var l_Scale       = (Dictionary<string,object>)data["localScale"];
+
+					obj.transform.localPosition    = new Vector3((long)l_pos["x"],(long)l_pos["y"],(long)l_pos["z"]);
+					obj.transform.localEulerAngles = new Vector3((long)l_EulerAngles["x"],(long)l_EulerAngles["y"],(long)l_EulerAngles["z"]);
+					obj.transform.localScale       = new Vector3((long)l_Scale["x"],(long)l_Scale["y"],(long)l_Scale["z"]);
+
+				}
+				
+			}catch{
+				Debug.Log("error"+"["+ObjectName+"]"+":ReciveTransform");
 			}
-		}catch{
-			Debug.Log("error"+"["+ObjectName+"]"+":ReciveTransform");
 		}
 	}
 	
 	//IEnumerator transformToNodeJS(){
-	private void transformToNodeJS(){
-		objects = GameObject.FindGameObjectsWithTag("TransformToNodeJS");
+	private void transformToNodeJS(GameObject[] objects){
 		if(objects.Length > 0){
 
 			//array = new Dictionary<string, object>();
@@ -174,7 +190,7 @@ public class Unode_transform_v2 : MonoBehaviour {
 		ws.OnMessage += (sender, e) => {
 			switch(e.Type){
 				case Opcode.Binary:
-					try{
+					//try{
 						Msgpack = unode.MessagePackDecode(e.RawData) as Dictionary<string,object>;
 						if(Msgpack.TryGetValue("mode",out data)){
 							mode = (string)data;
@@ -184,19 +200,15 @@ public class Unode_transform_v2 : MonoBehaviour {
 									break;
 								case "transform":
 									if(connected)
-										ReciveTransform(Msgpack);
+										ReciveMode = true;
 									break;
 							}
-							if(mode == "transform"){
-								Debug.Log("["+ObjectName+"]byte::"+e.RawData.Length);
-							 	ReciveTransform(Msgpack);
-							}	
 						}else{
 							Debug.Log("error"+"["+ObjectName+"]"+"::mode::"+e.RawData.Length);
 						}
-					}catch{
-						Debug.Log("error:"+"["+ObjectName+"]"+"Msgpack");
-					}
+					//}catch{
+					//	Debug.Log("error:"+"["+ObjectName+"]"+"Msgpack");
+					//}
 					break;
 				case Opcode.Text:
 					Debug.Log("text:"+e.Data);

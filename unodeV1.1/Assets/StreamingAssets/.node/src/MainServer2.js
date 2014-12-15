@@ -16,7 +16,7 @@ function sendTOunity(client,message){
 
 	client.send(bytedata,{binary:true,mask: false});
         
-        //console.log("Nodejs -> Unity:",bytedata);
+        console.log("Nodejs -> Unity:",bytedata.length);
     }catch(e){
         console.log("Error:",e);
     }
@@ -86,14 +86,19 @@ if (cluster.isMaster) {
 		    //client.send(data.name);
 		    if (data.regist != null) {
 			TransformClients.push(client);
+			var message = {
+			    mode : 'connected',
+			    ver  : 'v0.10.28'
+			}
+			sendTOunity(client,message);			
 			console.log("TransformClients:"+TransformClients.length);
 		    }else{
 			for(var i=0;i<data.size;i++){
 			    console.log("Name:%s ObjectSize:%d DataSize:%d",data.objects[i].name,data.size,request.length);
+			    //console.log(util.inspect(data,false,null));
 			}
 			BroadcastToUnity(client,data);
 		    }
-		    //console.log(util.inspect(data,false,null));
 		    break;
 		case "echo":
 		    var message = {
