@@ -32,6 +32,7 @@ public class Unode_transform_v2 : MonoBehaviour {
 	public bool SendMode = false;
 	public bool ReciveMode=false;
 	private float time = 0.0f;
+	private Vector3 tmp;
 	void Awake() {
 		unode = GameObject.Find ("Unode_v1_3").GetComponent<Unode_v1_3> ();
 
@@ -64,6 +65,7 @@ public class Unode_transform_v2 : MonoBehaviour {
 		if (unode.IsNodeJS) {
 			ObjectName = name;
 			ws = new WebSocket (unode.adress);
+			list = new List<object>();
 			SetupTransform (ws, unode.adress);
 			//StartCoroutine (transformToNodeJS ());
 		}
@@ -76,15 +78,15 @@ public class Unode_transform_v2 : MonoBehaviour {
 			time = 0;
 			objects = GameObject.FindGameObjectsWithTag("TransformToNodeJS");
 			object_dic = objects.ToDictionary (n => n.name,n => (object)n);
-			if(ReciveMode){
-
-			}else{
-				//transformToNodeJS(objects);
-			}
+			transformToNodeJS(objects);
 		}
+		/*
+		if(ReciveMode){
+			ReciveMode = false;
+			ReciveTransform (Msgpack,object_dic);			
+		}
+		*/
 
-		ReciveMode = false;
-		ReciveTransform (Msgpack,object_dic);
 	}
 	
 	void OnApplicationQuit() {
@@ -102,7 +104,7 @@ public class Unode_transform_v2 : MonoBehaviour {
 				GameObject obj = GameObjs[(string)data["name"]] as GameObject;
 
 
-				//Debug.Log((string)data["name"]);
+				Debug.Log((string)data["name"]);
 
 				var l_pos         = (Dictionary<string,object>)data["localPosition"];
 				var l_EulerAngles = (Dictionary<string,object>)data["localEulerAngles"];
@@ -127,7 +129,7 @@ public class Unode_transform_v2 : MonoBehaviour {
 		if(objects.Length > 0){
 
 			//array = new Dictionary<string, object>();
-			list = new List<object>();
+			list.Clear();
 
 			for(int i=0;i<objects.Length;i++){
 				try{
@@ -135,21 +137,19 @@ public class Unode_transform_v2 : MonoBehaviour {
 						objects[i].transform.hasChanged = false;
 						SendMode = true;
 
-						var tmp = new Vector3();
-
-						tmp = objects[i].transform.localPosition;
+						tmp = objects[i].transform.localPosition * 1.0f;
 
 						localPosition ["x"] = tmp.x;
 						localPosition ["y"] = tmp.y;
 						localPosition ["z"] = tmp.z;
 
-						tmp = objects[i].transform.localEulerAngles;
+						tmp = objects[i].transform.localEulerAngles * 1.0f;
 
 						localEulerAngles ["x"] = tmp.x;
 						localEulerAngles ["y"] = tmp.y;
 						localEulerAngles ["z"] = tmp.z;
 
-						tmp = objects[i].transform.localScale;
+						tmp = objects[i].transform.localScale * 1.0f;
 
 						localScale ["x"] = tmp.x;
 						localScale ["y"] = tmp.y;
