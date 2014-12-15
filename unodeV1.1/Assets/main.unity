@@ -157,11 +157,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unode: {fileID: 0}
-  wait: .300000012
+  wait: 1
   connected: 0
   ObjectName: 
   mode: 
   SendMode: 0
+  ReciveMode: 0
 --- !u!114 &952009938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,7 +176,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   obj: {fileID: 100000, guid: 3a51246548b16a449885c3e892baff71, type: 2}
-  v: {x: 10, y: 10, z: 1}
+  v: {x: 1, y: 1, z: 1}
   offset: 2
 --- !u!4 &952009939
 Transform:
@@ -370,11 +371,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400002, guid: 4b4201c4d2e2fb442ade17ee0fbbc80b, type: 2}
       propertyPath: v.x
-      value: 10
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11400002, guid: 4b4201c4d2e2fb442ade17ee0fbbc80b, type: 2}
       propertyPath: v.y
-      value: 10
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11400002, guid: 4b4201c4d2e2fb442ade17ee0fbbc80b, type: 2}
       propertyPath: v.z
@@ -382,7 +383,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 4b4201c4d2e2fb442ade17ee0fbbc80b, type: 2}
       propertyPath: wait
-      value: .300000012
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11400002, guid: 4b4201c4d2e2fb442ade17ee0fbbc80b, type: 2}
       propertyPath: offset
