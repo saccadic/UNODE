@@ -38,7 +38,7 @@ public class Unode_transform_v2 : MonoBehaviour {
 	private List<object> TransformObjects;
 	private GameObject obj;
 	private int i,t;
-
+	private float[] vec;
 	void Awake() {
 		unode = GameObject.Find ("Unode_v1_3").GetComponent<Unode_v1_3> ();
 
@@ -127,23 +127,72 @@ public class Unode_transform_v2 : MonoBehaviour {
 				l_EulerAngles = (Dictionary<string,object>)TransformData["localEulerAngles"];
 				l_Scale       = (Dictionary<string,object>)TransformData["localScale"];
 
+				//Debug.Log(l_EulerAngles["x"].GetType());
+
+				vec = new float[3];
+				if(l_pos["x"].GetType() == typeof(double)){
+					vec[0] = (float)(double)l_pos["x"];
+				}else{
+					vec[0] = (float)(Int64)l_pos["x"];
+				}
+				if(l_pos["y"].GetType() == typeof(double)){
+					vec[1] = (float)(double)l_pos["y"];
+				}else{
+					vec[1] = (float)(Int64)l_pos["y"];
+				}
+				if(l_pos["z"].GetType() == typeof(double)){
+					vec[2] = (float)(double)l_pos["z"];
+				}else{
+					vec[2] = (float)(Int64)l_pos["z"];
+				}
 				obj.transform.localPosition = new Vector3(
-					(float)(double)l_pos["x"],
-					(float)(double)l_pos["y"],
-					(float)(double)l_pos["z"]
-				);
-				obj.transform.localEulerAngles = new Vector3(
-					(float)(double)l_EulerAngles["x"],
-					(float)(double)l_EulerAngles["y"],
-					(float)(double)l_EulerAngles["z"]
-				);
-				obj.transform.localScale = new Vector3(
-					(float)(double)l_Scale["x"],
-					(float)(double)l_Scale["y"],
-					(float)(double)l_Scale["z"]
+					vec[0],
+					vec[1],
+					vec[2]
 				);
 
-				//Debug.Log("name:"+obj.transform.localPosition);
+				if(l_EulerAngles["x"].GetType() == typeof(double)){
+					vec[0] = (float)(double)l_EulerAngles["x"];
+				}else{
+					vec[0] = (float)(Int64)l_EulerAngles["x"];
+				}
+				if(l_EulerAngles["y"].GetType() == typeof(double)){
+					vec[1] = (float)(double)l_EulerAngles["y"];
+				}else{
+					vec[1] = (float)(Int64)l_EulerAngles["y"];
+				}
+				if(l_EulerAngles["z"].GetType() == typeof(double)){
+					vec[2] = (float)(double)l_EulerAngles["z"];
+				}else{
+					vec[2] = (float)(Int64)l_EulerAngles["z"];
+				}
+				obj.transform.localEulerAngles = new Vector3(
+					vec[0],
+					vec[1],
+					vec[2]
+				);
+
+				if(l_Scale["x"].GetType() == typeof(double)){
+					vec[0] = (float)(double)l_Scale["x"];
+				}else{
+					vec[0] = (float)(Int64)l_Scale["x"];
+				}
+				if(l_Scale["y"].GetType() == typeof(double)){
+					vec[1] = (float)(double)l_Scale["y"];
+				}else{
+					vec[1] = (float)(Int64)l_Scale["y"];
+				}
+				if(l_Scale["z"].GetType() == typeof(double)){
+					vec[2] = (float)(double)l_Scale["z"];
+				}else{
+					vec[2] = (float)(Int64)l_Scale["z"];
+				}
+				obj.transform.localEulerAngles = new Vector3(
+					vec[0],
+					vec[1],
+					vec[2]
+				);
+
 			}
 			
 		}catch{
