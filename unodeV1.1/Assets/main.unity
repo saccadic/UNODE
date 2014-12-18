@@ -549,6 +549,7 @@ MonoBehaviour:
   Sampling: 48000
   file: voice.wav
   text: "\u306D\u3053"
+  mode: 
 --- !u!4 &1857408792
 Transform:
   m_ObjectHideFlags: 0

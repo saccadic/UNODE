@@ -22,7 +22,7 @@ public class NodeJTalk : MonoBehaviour {
 	public string file;
 	[Multiline(10)]public string text;
 
-	private string mode;
+	public string mode;
 
 	void Awake() {
 		unode = GameObject.Find ("Unode_v1_3").GetComponent<Unode_v1_3> ();
