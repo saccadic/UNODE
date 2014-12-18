@@ -187,7 +187,7 @@ public class Unode_transform_v2 : MonoBehaviour {
 				}else{
 					vec[2] = (float)(Int64)l_Scale["z"];
 				}
-				obj.transform.localEulerAngles = new Vector3(
+				obj.transform.localScale = new Vector3(
 					vec[0],
 					vec[1],
 					vec[2]
@@ -215,23 +215,23 @@ public class Unode_transform_v2 : MonoBehaviour {
 
 						tmp = objects[t].transform.localPosition;
 						localPosition = new Dictionary<string, object> {
-							{ "x", tmp.x},
-							{ "y", tmp.y},
-							{ "z", tmp.z}
+							{ "x", Math.Round(tmp.x, 3, MidpointRounding.AwayFromZero)},
+							{ "y", Math.Round(tmp.y, 3, MidpointRounding.AwayFromZero)},
+							{ "z", Math.Round(tmp.z, 3, MidpointRounding.AwayFromZero)}
 						};
 
 						tmp = objects[t].transform.localEulerAngles;
 						localEulerAngles = new Dictionary<string, object> {
-							{ "x", tmp.x},
-							{ "y", tmp.y},
-							{ "z", tmp.z}
+							{ "x", Math.Round(tmp.x, 3, MidpointRounding.AwayFromZero)},
+							{ "y", Math.Round(tmp.y, 3, MidpointRounding.AwayFromZero)},
+							{ "z", Math.Round(tmp.z, 3, MidpointRounding.AwayFromZero)}
 						};
 
 						tmp = objects[t].transform.localScale;
 						localScale = new Dictionary<string, object> {
-							{ "x", tmp.x},
-							{ "y", tmp.y},
-							{ "z", tmp.z}
+							{ "x", Math.Round(tmp.x, 3, MidpointRounding.AwayFromZero)},
+							{ "y", Math.Round(tmp.y, 3, MidpointRounding.AwayFromZero)},
+							{ "z", Math.Round(tmp.z, 3, MidpointRounding.AwayFromZero)}
 						};
 
 						tmp_data = new Dictionary<string, object>{
