@@ -273,7 +273,7 @@ public class Unode_transform_v2 : MonoBehaviour {
 		
 		ws.OnClose += (object sender, CloseEventArgs e) => {
 			Debug.Log ("OnClosed"+"[transform]:" + e.Reason);
-			//setup_websocket (ws,adress);	
+			//ws.Connect();	
 		};	
 	}
 }
