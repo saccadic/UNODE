@@ -138,7 +138,7 @@ GameObject:
   - 114: {fileID: 952009938}
   - 114: {fileID: 952009937}
   m_Layer: 0
-  m_Name: boxes
+  m_Name: Unode_transform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -388,6 +388,10 @@ Prefab:
     - target: {fileID: 11400002, guid: 4b4201c4d2e2fb442ade17ee0fbbc80b, type: 2}
       propertyPath: offset
       value: .5
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 4b4201c4d2e2fb442ade17ee0fbbc80b, type: 2}
+      propertyPath: m_Name
+      value: Unode_transform
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4b4201c4d2e2fb442ade17ee0fbbc80b, type: 2}

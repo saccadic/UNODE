@@ -17,6 +17,7 @@ public class make_box : MonoBehaviour {
 					clone.transform.parent = transform;
 					clone.transform.position = new Vector3(x,y,z) + transform.position + new Vector3(offset,offset,offset);
 					clone.gameObject.name = n+"";
+					clone.gameObject.AddComponent<Unode_object>();
 					n++;
 				}
 			}
