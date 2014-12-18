@@ -176,8 +176,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 972c0ad15f917674082cd62e692f2157, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  obj: {fileID: 100000, guid: 3a51246548b16a449885c3e892baff71, type: 2}
-  v: {x: 10, y: 10, z: 10}
+  obj: {fileID: 100000, guid: 7f3115f916b0e894781a0c34df482c52, type: 2}
+  v: {x: 5, y: 5, z: 5}
   n: 0
   offset: .5
 --- !u!4 &952009939
@@ -373,15 +373,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400002, guid: 4b4201c4d2e2fb442ade17ee0fbbc80b, type: 2}
       propertyPath: v.x
-      value: 10
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 11400002, guid: 4b4201c4d2e2fb442ade17ee0fbbc80b, type: 2}
       propertyPath: v.y
-      value: 10
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 11400002, guid: 4b4201c4d2e2fb442ade17ee0fbbc80b, type: 2}
       propertyPath: v.z
-      value: 10
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 4b4201c4d2e2fb442ade17ee0fbbc80b, type: 2}
       propertyPath: wait
@@ -395,6 +395,10 @@ Prefab:
       propertyPath: m_Name
       value: Unode_transform
       objectReference: {fileID: 0}
+    - target: {fileID: 11400002, guid: 4b4201c4d2e2fb442ade17ee0fbbc80b, type: 2}
+      propertyPath: obj
+      value: 
+      objectReference: {fileID: 100000, guid: 7f3115f916b0e894781a0c34df482c52, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4b4201c4d2e2fb442ade17ee0fbbc80b, type: 2}
   m_RootGameObject: {fileID: 952009936}

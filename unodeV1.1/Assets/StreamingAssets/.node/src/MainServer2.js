@@ -91,7 +91,7 @@ if (cluster.isMaster) {
 			    ver  : 'v0.10.28'
 			}
 			sendTOunity(client,message);			
-			console.log("TransformClients:"+TransformClients.length);
+			//console.log("TransformClients:"+TransformClients.length);
 		    }else{
 			//for(var i=0;i<data.size;i++){
 			    //console.log("Name:%s ObjectSize:%d DataSize:%d",data.objects[i].name,data.size,request.length);
