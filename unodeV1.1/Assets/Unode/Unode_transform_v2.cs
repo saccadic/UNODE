@@ -33,8 +33,19 @@ public class Unode_transform_v2 : MonoBehaviour {
 	public bool ReciveMode=false;
 	private float time = 0.0f;
 	private Vector3 tmp;
+
+	private Dictionary<string,object> l_pos, l_EulerAngles, l_Scale,TransformData;
+	private List<object> TransformObjects;
+	private GameObject obj;
+	private int i,t;
+
 	void Awake() {
 		unode = GameObject.Find ("Unode_v1_3").GetComponent<Unode_v1_3> ();
+
+		l_pos = new Dictionary<string, object>();
+		l_EulerAngles = new Dictionary<string, object>();
+		l_Scale = new Dictionary<string, object>();
+		TransformData = new Dictionary<string, object>();
 
 		localPosition = new Dictionary<string, object> {
 			{ "x", 0.0f},
@@ -99,36 +110,56 @@ public class Unode_transform_v2 : MonoBehaviour {
 			ws.Close();
 	}
 
+
 	private void ReciveTransform(Dictionary<string,object> dic,Dictionary<string,object> GameObjs){
 		try{
-			var objects = dic["objects"] as List<object>;
-			//Debug.Log ("size:"+objects.Count);
+			TransformObjects = dic["objects"] as List<object>;
+			Debug.Log ("size:"+TransformObjects.Count);
 
-			for(int i=0;i<objects.Count;i++){
-				var data = objects[i] as Dictionary<string,object>;
-				GameObject obj = GameObjs[(string)data["name"]] as GameObject; //GameObject.Find((string)data["name"]);
+			for(i=0;i<TransformObjects.Count;i++){
+				TransformData = TransformObjects[i] as Dictionary<string,object>;
+				obj = GameObject.Find((string)TransformData["name"]);//GameObjs[(string)TransformData["name"]] as GameObject; //
 	
 				//Debug.Log("name:"+obj);
 
-				var l_pos         = (Dictionary<string,object>)data["localPosition"];
-				var l_EulerAngles = (Dictionary<string,object>)data["localEulerAngles"];
-				var l_Scale       = (Dictionary<string,object>)data["localScale"];
-
-				obj.transform.localPosition  = new Vector3(
+				l_pos         = (Dictionary<string,object>)TransformData["localPosition"];
+				l_EulerAngles = (Dictionary<string,object>)TransformData["localEulerAngles"];
+				l_Scale       = (Dictionary<string,object>)TransformData["localScale"];
+				/*
+				obj.transform.localPosition = new Vector3(
 						float.Parse((string)l_pos["x"]),
 						float.Parse((string)l_pos["y"]),
 			            float.Parse((string)l_pos["z"])
 					);
-				obj.transform.localEulerAngles  = new Vector3(
+				obj.transform.localEulerAngles = new Vector3(
 						float.Parse((string)l_EulerAngles["x"]),
 						float.Parse((string)l_EulerAngles["y"]),
 						float.Parse((string)l_EulerAngles["z"])
 					);
-				obj.transform.localScale  = new Vector3(
+				obj.transform.localScale = new Vector3(
 						float.Parse((string)l_Scale["x"]),
 						float.Parse((string)l_Scale["y"]),
 						float.Parse((string)l_Scale["z"])
 					);
+					*/
+
+				obj.transform.localPosition = new Vector3(
+					(float)l_pos["x"],
+					(float)l_pos["y"],
+					(float)l_pos["z"]
+				);
+				obj.transform.localEulerAngles = new Vector3(
+					(float)l_EulerAngles["x"],
+					(float)l_EulerAngles["y"],
+					(float)l_EulerAngles["z"]
+				);
+				obj.transform.localScale = new Vector3(
+					(float)l_Scale["x"],
+					(float)l_Scale["y"],
+					(float)l_Scale["z"]
+				);
+
+				Debug.Log("name:"+obj.transform.localPosition);
 			}
 			
 		}catch{
@@ -143,33 +174,50 @@ public class Unode_transform_v2 : MonoBehaviour {
 			//array = new Dictionary<string, object>();
 			list.Clear();
 
-			for(int i=0;i<objects.Length;i++){
+			for(int t=0;t<objects.Length;t++){
 				try{
-					if(objects[i].transform.hasChanged){
-						objects[i].transform.hasChanged = false;
+					if(objects[t].transform.hasChanged){
+						objects[t].transform.hasChanged = false;
 						SendMode = true;
 
-						tmp = objects[i].transform.localPosition * 1.0f;
+						tmp = objects[t].transform.localPosition;
+						localPosition["x"] = (float)tmp.x;
+						localPosition["y"] = (float)tmp.y;
+						localPosition["z"] = (float)tmp.z;
+						/*
 						localPosition = new Dictionary<string, object> {
 							{ "x", tmp.x.ToString()},
 							{ "y", tmp.y.ToString()},
 							{ "z", tmp.z.ToString()}
 						};
-						tmp = objects[i].transform.localEulerAngles * 1.0f;
+						*/
+
+						tmp = objects[t].transform.localEulerAngles;
+						localEulerAngles["x"] = (float)tmp.x;
+						localEulerAngles["y"] = (float)tmp.y;
+						localEulerAngles["z"] = (float)tmp.z;
+						/*
 						localEulerAngles = new Dictionary<string, object> {
 							{ "x", tmp.x.ToString()},
 							{ "y", tmp.y.ToString()},
 							{ "z", tmp.z.ToString()}
 						};
-						tmp = objects[i].transform.localScale * 1.0f;
+						*/
+
+						tmp = objects[t].transform.localScale;
+						localScale["x"] = (float)tmp.x;
+						localScale["y"] = (float)tmp.y;
+						localScale["z"] = (float)tmp.z;
+						/*
 						localScale = new Dictionary<string, object> {
 							{ "x", tmp.x.ToString()},
 							{ "y", tmp.y.ToString()},
 							{ "z", tmp.z.ToString()}
 						};
-						
+						*/
+
 						var data = new Dictionary<string, object>{
-							{ "name", objects[i].name},
+							{ "name", objects[t].name},
 							{ "localPosition", localPosition},
 							{ "localEulerAngles", localEulerAngles},
 							{ "localScale", localScale}
@@ -181,7 +229,7 @@ public class Unode_transform_v2 : MonoBehaviour {
 							mode = string.Empty;
 					}
 				}catch{
-					Debug.Log("error"+"["+objects[i].name+"]"+":Dictionary");
+					Debug.Log("error"+"["+objects[t].name+"]"+":Dictionary");
 				}
 			}
 

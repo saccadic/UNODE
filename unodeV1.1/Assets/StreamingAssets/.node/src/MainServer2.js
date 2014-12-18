@@ -47,7 +47,7 @@ if (cluster.isMaster) {
  
 } else {
     
-    var server = new WebSocketServer({ port: 8080 });
+    var server = new WebSocketServer({host:'0.0.0.0', port:8080});
 
     server.on('connection', function(client) {
 	console.log('connection start:',client._ultron.id);
