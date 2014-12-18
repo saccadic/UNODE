@@ -9,7 +9,7 @@ var msgpack = require('msgpack-js');
 
 var children = {};
 var TransformClients = [];
-
+var counter = 0;
 function sendTOunity(client,message){
     try{
         var bytedata = msgpack.encode(message);
@@ -50,12 +50,12 @@ if (cluster.isMaster) {
     var server = new WebSocketServer({host:'0.0.0.0', port:8080});
 
     server.on('connection', function(client) {
-	console.log('connection start:',client._ultron.id);
+	console.log('connection start:%d',client._ultron.id);
 	
 	// クライアントからのメッセージ受信イベントを処理
 	client.on('message', function(request) {
 	    var data = msgpack.decode(request);
-	    //console.log("Unity -> Nodejs:",data);
+	    //console.log("Unity -> Nodejs:%d:%d",request.length,counter++);
     
 	    //--------------Main area--------------
 	    switch (data.mode) {
@@ -97,7 +97,7 @@ if (cluster.isMaster) {
 			    //console.log("Name:%s ObjectSize:%d DataSize:%d",data.objects[i].name,data.size,request.length);
 			    //console.log(util.inspect(data,false,null));
 			//}
-			console.log(util.inspect(data,false,null));
+			//console.log(util.inspect(data,false,null));
 			BroadcastToUnity(client,data);
 		    }
 		    break;

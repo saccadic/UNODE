@@ -63,7 +63,8 @@ public class Unode_transform_v2 : MonoBehaviour {
 			{ "y", 1.0f},
 			{ "z", 1.0f}
 		};
-*/
+		*/
+
 		packed_data = new Dictionary<string, object> {
 			{ "mode", "transform" },
 			{ "name", name},
@@ -79,7 +80,6 @@ public class Unode_transform_v2 : MonoBehaviour {
 			ws = new WebSocket (unode.adress);
 			list = new List<object>();
 			SetupTransform (ws, unode.adress);
-			//StartCoroutine (transformToNodeJS ());
 		}
 		objects = GameObject.FindGameObjectsWithTag("TransformToNodeJS");
 		object_dic = objects.ToDictionary (n => n.name,n => (object)n);
@@ -87,23 +87,20 @@ public class Unode_transform_v2 : MonoBehaviour {
 
 	void Update () {
 		time = time + Time.deltaTime;
-		SendMode = false;
+
 		if(time >= wait){
 			time = 0;
-			//if(objects.Length<999){
+			if(objects.Length<999){
 				objects = GameObject.FindGameObjectsWithTag("TransformToNodeJS");
 				object_dic = objects.ToDictionary (n => n.name,n => (object)n);
-			//}
-			if(!ReciveMode)
+			}
+			if (ReciveMode) {
+				ReciveMode = false;
+				ReciveTransform (Msgpack, object_dic);			
+			} else {
 				transformToNodeJS(objects);	
+			}
 		}
-
-		if (ReciveMode) {
-			ReciveMode = false;
-			ReciveTransform (Msgpack, object_dic);			
-		}
-
-
 	}
 	
 	void OnApplicationQuit() {
@@ -145,11 +142,7 @@ public class Unode_transform_v2 : MonoBehaviour {
 				}else{
 					vec[2] = (float)(Int64)l_pos["z"];
 				}
-				obj.transform.localPosition = new Vector3(
-					vec[0],
-					vec[1],
-					vec[2]
-				);
+				obj.transform.localPosition = new Vector3(vec[0],vec[1],vec[2]);
 
 				if(l_EulerAngles["x"].GetType() == typeof(double)){
 					vec[0] = (float)(double)l_EulerAngles["x"];
@@ -166,11 +159,7 @@ public class Unode_transform_v2 : MonoBehaviour {
 				}else{
 					vec[2] = (float)(Int64)l_EulerAngles["z"];
 				}
-				obj.transform.localEulerAngles = new Vector3(
-					vec[0],
-					vec[1],
-					vec[2]
-				);
+				obj.transform.localEulerAngles = new Vector3(vec[0],vec[1],vec[2]);
 
 				if(l_Scale["x"].GetType() == typeof(double)){
 					vec[0] = (float)(double)l_Scale["x"];
@@ -187,12 +176,9 @@ public class Unode_transform_v2 : MonoBehaviour {
 				}else{
 					vec[2] = (float)(Int64)l_Scale["z"];
 				}
-				obj.transform.localScale = new Vector3(
-					vec[0],
-					vec[1],
-					vec[2]
-				);
+				obj.transform.localScale = new Vector3(vec[0],vec[1],vec[2]);
 
+				obj.transform.hasChanged = false;
 			}
 			
 		}catch{
@@ -207,12 +193,12 @@ public class Unode_transform_v2 : MonoBehaviour {
 			//array = new Dictionary<string, object>();
 			list.Clear();
 
-			for(int t=0;t<objects.Length;t++){
+			for(t=0;t<objects.Length;t++){
 				try{
 					if(objects[t].transform.hasChanged){
 						objects[t].transform.hasChanged = false;
 						SendMode = true;
-
+						//Debug.Log("change");
 						tmp = objects[t].transform.localPosition;
 						localPosition = new Dictionary<string, object> {
 							{ "x", Math.Round(tmp.x, 3, MidpointRounding.AwayFromZero)},
@@ -251,12 +237,13 @@ public class Unode_transform_v2 : MonoBehaviour {
 				}
 			}
 
-			packed_data["size"] = list.Count;
-			packed_data["objects"] = list;
-
 			if(SendMode){
 				try{
+					//Debug.Log(list.Count);
+					packed_data["size"] = list.Count;
+					packed_data["objects"] = list;
 					unode.send(ws,packed_data);
+					SendMode = false;
 				}catch{
 					Debug.Log("error"+"["+ObjectName+"]"+":send");
 				}
