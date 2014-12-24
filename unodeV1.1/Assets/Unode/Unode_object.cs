@@ -12,11 +12,11 @@ public class Unode_object : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		UnodeTransform.TransformObject.Add(gameObject);
+		UnodeTransform.AddTransformObject(gameObject);
 	}
 	
 	// Update is called once per frame
 	void OnDestroy () {
-		UnodeTransform.TransformObject.RemoveAll (obj=> obj == gameObject);
+		UnodeTransform.RemoveTransformObject(gameObject);
 	}
 }

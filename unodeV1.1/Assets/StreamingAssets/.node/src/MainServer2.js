@@ -5,6 +5,7 @@ var numCPUs = require('os').cpus().length;
 
 var child_process = require("child_process");
 var WebSocketServer = require('ws').Server
+var v6 = require('ipv6').v6;
 var msgpack = require('msgpack-js');
 
 var children = {};
@@ -13,7 +14,7 @@ var counter = 0;
 function sendTOunity(client,message){
     try{
         var bytedata = msgpack.encode(message);
-
+    
 	client.send(bytedata,{binary:true,mask: false});
         
         //console.log("Nodejs -> Unity:",bytedata.length);
@@ -46,6 +47,10 @@ if (cluster.isMaster) {
   });
  
 } else {
+    var address = new v6.Address('2001:c90:8a42:80fc:218b:ab6d:7e1f:1f54');
+    var teredo = address.teredo();
+    
+    console.log(teredo.client4); 
     
     var server = new WebSocketServer({host:'0.0.0.0', port:8080});
 

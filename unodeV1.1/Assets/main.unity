@@ -102,7 +102,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 428093d56d44f3c4c986fb58843d9bf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  adress: ws://127.0.0.1:8080/
+  adress: ws://trun-178194.apne1.nitrousbox.com:8080/
   IsNodeJS: 0
   program_name: node.exe
   windowtype_hidden: 0
@@ -326,6 +326,10 @@ Prefab:
     - target: {fileID: 11400000, guid: f83f7915f1489024e963834c79b71ef0, type: 2}
       propertyPath: mode
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: f83f7915f1489024e963834c79b71ef0, type: 2}
+      propertyPath: adress
+      value: ws://trun-178194.apne1.nitrousbox.com:8080/
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f83f7915f1489024e963834c79b71ef0, type: 2}

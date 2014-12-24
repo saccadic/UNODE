@@ -276,4 +276,14 @@ public class Unode_transform_v2 : MonoBehaviour {
 			//ws.Connect();	
 		};	
 	}
+
+	public void AddTransformObject(GameObject g){
+		Debug.Log ("Add Transform Object:"+g.name);
+		TransformObject.Add(g);
+	}
+
+	public void RemoveTransformObject(GameObject g){
+		Debug.Log ("Remove Transform Object:"+g.name);
+		TransformObject.RemoveAll (obj=> obj == g);
+	}
 }

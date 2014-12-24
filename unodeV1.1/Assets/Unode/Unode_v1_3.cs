@@ -191,4 +191,8 @@ public class Unode_v1_3 : MonoBehaviour {
 		};
 		send(ws,packed_data);		
 	}
+
+	public void AddTransformObjct(GameObject obj){
+		
+	}
 }

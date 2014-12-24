@@ -5,13 +5,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-using WebSocketSharp;
+//using WebSocketSharp;
 
 public class NodeJTalk : MonoBehaviour {
 	public Unode_v1_3 unode;
 
 	//Websocket
-	private WebSocket ws;
+	//private WebSocket ws;
 
 	//Messagepack
 	public Dictionary<string,object> Msgpack;
@@ -26,13 +26,14 @@ public class NodeJTalk : MonoBehaviour {
 
 	void Awake() {
 		unode = GameObject.Find ("Unode_v1_3").GetComponent<Unode_v1_3> ();
-		ws = new WebSocket (unode.adress);
+
 	}
 
 	// Use this for initialization
 	void Start () {
 		Debug.Log ("NodeJTalk.");
-
+		/*
+		ws = new WebSocket (unode.adress);
 		ws.Connect ();
 		unode.RegistNodeModule(ws, "openjtalk", "NodeJTalk.js");
 
@@ -44,6 +45,7 @@ public class NodeJTalk : MonoBehaviour {
 			var obj = unode.MessagePackDecode (e.RawData);
 			Msgpack = obj as Dictionary<string,object>;
 			mode    = (string)Msgpack ["mode"];
+
 		};
 
 		ws.OnError += (object sender, ErrorEventArgs e) => {
@@ -53,12 +55,13 @@ public class NodeJTalk : MonoBehaviour {
 		ws.OnClose += (object sender, CloseEventArgs e) => {
 			Debug.Log ("OnClosed[NodeJTalk]:" + e.Reason);
 		};
+		*/
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if(mode == "talking"){
-			mode = string.Empty;
+		if(unode.mode == "talking"){
+			unode.mode = string.Empty;
 			if (gameObject.GetComponent<voice> () == null)
 				gameObject.AddComponent<voice> ().file = file;
 		}
@@ -74,8 +77,8 @@ public class NodeJTalk : MonoBehaviour {
 	}
 
 	void OnApplicationQuit() {
-		if(ws != null)
-			ws.Close();
+		//if(ws != null)
+		//	ws.Close();
 	}
 
 	void talk(string str){
@@ -89,6 +92,6 @@ public class NodeJTalk : MonoBehaviour {
 			{ "file" , file},
 			{ "text" , str}
 		};
-		unode.SendToNodeModule(ws,"openjtalk",option);
+		unode.SendToNodeModule(unode.ws,"openjtalk",option);
 	}
 }
