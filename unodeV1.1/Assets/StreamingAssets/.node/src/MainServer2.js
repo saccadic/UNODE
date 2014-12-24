@@ -5,7 +5,7 @@ var numCPUs = require('os').cpus().length;
 
 var child_process = require("child_process");
 var WebSocketServer = require('ws').Server
-var v6 = require('ipv6').v6;
+
 var msgpack = require('msgpack-js');
 
 var children = {};
@@ -46,12 +46,7 @@ if (cluster.isMaster) {
     console.log("worker("+worker.id+").listening " + address.address + ":" + address.port);
   });
  
-} else {
-    var address = new v6.Address('2001:c90:8a42:80fc:218b:ab6d:7e1f:1f54');
-    var teredo = address.teredo();
-    
-    console.log(teredo.client4); 
-    
+} else {    
     var server = new WebSocketServer({host:'0.0.0.0', port:8080});
 
     server.on('connection', function(client) {
